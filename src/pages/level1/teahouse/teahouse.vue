@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <view class="main">
     <!-- 轮播图 开始 -->
 	<!--滚动条开始-->
@@ -39,12 +40,25 @@ export default {
     indexSwiper,
     IndexCate,
 	NoticeBar
+=======
+  <div>TEAHOUSE</div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {};
+>>>>>>> 431ea731e4effdf94b192f780614fdb7249fa46b
   },
 };
 </script>
 
+<<<<<<< HEAD
 <style scoped>
 .main{
 	padding: 0 10px;
 }
+=======
+<style>
+>>>>>>> 431ea731e4effdf94b192f780614fdb7249fa46b
 </style>
