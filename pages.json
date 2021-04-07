@@ -7,7 +7,6 @@
 		"path": "src/pages/level1/home/home"
 	}, {
 		"path": "src/pages/level1/team/team"
-<<<<<<< HEAD
 	},{
 		"path": "src/pages/level2/teahouse/taskHall",
 		"style":{ 
@@ -15,14 +14,8 @@
 		}
 	}],
 	"tabBar": {
-		"color": "#6b82aa",
-		"selectedColor": "#6b82aa",
-=======
-	}],
-	"tabBar": {
 		"color": "#7a7e83",
 		"selectedColor": "#0faeff",
->>>>>>> 431ea731e4effdf94b192f780614fdb7249fa46b
 		"backgroundColor": "#ffffff",
 		"list": [{
 				"pagePath": "src/pages/level1/home/home",
@@ -32,13 +25,8 @@
 			}, {
 				"pagePath": "src/pages/level1/teahouse/teahouse",
 				"text": "茶馆",
-<<<<<<< HEAD
 				"iconPath": "static/tabbar/tea.png",
 				"selectedIconPath": "static/tabbar/tea_active.png"
-=======
-				"iconPath": "static/tabbar/tavern.png",
-				"selectedIconPath": "static/tabbar/tavern_active.png"
->>>>>>> 431ea731e4effdf94b192f780614fdb7249fa46b
 			},
 			{
 				"pagePath": "src/pages/level1/team/team",
@@ -54,7 +42,6 @@
 		]
 	},
 	"globalStyle": {
-<<<<<<< HEAD
 			"navigationBarTextStyle": "white",
 			"navigationBarTitleText": "uni-app",
 			"navigationBarBackgroundColor": "#007AFF",
@@ -63,10 +50,5 @@
 			"app-plus":{
 				"titleNView":false
 			}
-=======
-		"navigationBarTextStyle": "white",
-		"navigationBarBackgroundColor": "#0faeff",
-		"backgroundColor": "#fbf9fe"
->>>>>>> 431ea731e4effdf94b192f780614fdb7249fa46b
 	}
 }
