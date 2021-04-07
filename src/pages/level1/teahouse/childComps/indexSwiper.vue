@@ -22,4 +22,8 @@ export default {
 };
 </script>
 <style scoped>
+	.index_swiper image{
+		background-color: #007AFF;
+		width: 100%;
+	}
 </style>

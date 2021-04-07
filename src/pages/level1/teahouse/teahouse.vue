@@ -43,15 +43,8 @@ export default {
 };
 </script>
 
-<style>
-	.indexNotice{
-		position: absolute;
-		z-index: 9;
-		top: 0;
-		left: 0;
-	}
-	.indexSwiper{
-		position: relative;
-		z-index: -1;
-	}
+<style scoped>
+.main{
+	padding: 0 10px;
+}
 </style>
