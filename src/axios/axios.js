@@ -42,7 +42,7 @@ export class Axios {
      * @param dataType
      * @param responseType
      * @param ContentType
-     * @param Authorization
+     * @param token
      */
     static create({
         baseURL = "http://localhost:3000",
@@ -51,7 +51,7 @@ export class Axios {
         dataType = "json",
         responseType = "text",
         ContentType = "application/json",
-        Authorization = "",
+        token = "",
     } = {}) {
         const axios = new Axios();
         axios.config = {
@@ -61,7 +61,7 @@ export class Axios {
             dataType,
             responseType,
             ContentType,
-            Authorization,
+            token,
         };
         return axios;
     }
@@ -100,7 +100,7 @@ export class Axios {
      * @param dataType
      * @param responseType
      * @param ContentType
-     * @param Authorization
+     * @param token
      * @returns {Promise<unknown>}
      */
     async request(
@@ -111,7 +111,7 @@ export class Axios {
             dataType = this.config.dataType,
             responseType = this.config.responseType,
             ContentType = this.config.ContentType,
-            Authorization = this.config.Authorization,
+            token = this.config.token,
             withCredentials = true,
         } = {}
     ) {
@@ -123,7 +123,7 @@ export class Axios {
             dataType,
             responseType,
             ContentType,
-            Authorization,
+            token,
         };
         // 如果是http://,https://开头的，则不走拦截
         // if (this._checkIsOriginRequest(url)) {
@@ -195,7 +195,7 @@ export class Axios {
                 // responseType: config.responseType,
                 header: {
                     "Content-Type": config.ContentType,
-                    Authorization: config.Authorization,
+                    token: config.token,
                 },
                 success: (res) => {
                     // 404状态码，则让它走fail回调
@@ -221,7 +221,7 @@ export class Axios {
             dataType = this.config.dataType,
             responseType = this.config.responseType,
             ContentType = this.config.ContentType,
-            Authorization = this.config.Authorization,
+            token = this.config.token,
         } = {}
     ) {
         return this.request(url, data, {
@@ -230,7 +230,7 @@ export class Axios {
             dataType,
             responseType,
             ContentType,
-            Authorization,
+            token,
         });
     }
 
@@ -242,7 +242,7 @@ export class Axios {
             dataType = this.config.dataType,
             responseType = this.config.responseType,
             ContentType = this.config.ContentType,
-            Authorization = this.config.Authorization,
+            token = this.config.token,
         } = {}
     ) {
         return this.request(url, data, {
@@ -251,7 +251,7 @@ export class Axios {
             dataType,
             responseType,
             ContentType,
-            Authorization,
+            token,
         });
     }
 

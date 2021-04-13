@@ -1,4 +1,3 @@
-
 import Axios from "./axios.js";
 
 // 初始化axios，并返回一个axios的实例
@@ -11,12 +10,12 @@ const httpInstance = Axios.create({
 httpInstance.interceptors.request.use(
     async (config) => {
             // config.Authorization = 'Cxm Token'
-            console.log("请求配置：");
-            console.log(config);
+			config.token='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MTg2MjU4MjEsInVzZXJJZCI6IjEifQ.jixr6ykGH4UGCZOZw0h5BbbefkkPkhejrV8_gEm4OwQ';
+       //     console.log("请求配置：");
             return config;
         },
         (error) => {
-            console.log("请求错误:" + error);
+            //console.log("请求错误:" + error);
         }
 );
 
@@ -24,7 +23,7 @@ httpInstance.interceptors.request.use(
 httpInstance.interceptors.response.use(
     (response) => {
         console.log("响应数据：");
-        console.log(response);
+   //     console.log(response);
         return response;
     },
     (error) => {
@@ -33,19 +32,4 @@ httpInstance.interceptors.response.use(
     }
 );
 
-
-import instance from './instance'
-//define interceptor
-// add a response interceptor
-instance.interceptors.response.use(function (response) {
-    // do something after receive response
-    let date = new Date().toLocaleTimeString();
-    console.log("%c%s", "color:black;font-size:12px;font-weight:800", "Response Receive " + "(" + date + ")")
-    console.dir(response)
-    return response.data;
-}, function (error) {
-    // do something when error
-     return Promise.reject(error);
-});
-
-export default instance;
+export default httpInstance;

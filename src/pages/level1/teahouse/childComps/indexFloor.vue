@@ -6,10 +6,10 @@
       <view class="floor_person">
         <view class="person_detial">
           <view class="admin_pic">
-            <image src="../../../../UI/touxiang.png" mode="widthFix"></image>
+            <img v-bind:src="list.userSimple.userHead" mode="widthFix"></img>
           </view>
           <view class="admin_detial">
-            <view class="admin_name">Care</view>
+            <view class="admin_name">{{list.userSimple.userName}}</view>
             <view class="admin_time">6分钟前</view>
           </view>
         </view>
@@ -17,10 +17,9 @@
           <image src="../../../../UI/grade.png" mode="widthFix"></image>
         </view>
       </view>
-      <view class="floor_ques"> 什么时候出考试安排？ </view>
+      <view class="floor_ques">{{list.postSimple.postText}}</view>
       <view class="floor_type">
-        <text>#学业咨询</text>
-        <text>#考试安排</text>
+        <text v-for="(item,index) in list.tagList">#{{item}}</text>
       </view>
       <view class="floor_pic"> </view>
       <view class="others">
@@ -37,11 +36,28 @@
 </template>
 
 <script>
+
+
 export default {
   name: "IndexFloor",
   data() {
-    return {};
+    return { 
+		
+	}
   },
+  props:{
+	   list: {
+	          type: Object,
+	          default() {
+	            return []
+	          }
+	        }
+  },
+  methods:{
+	show(){
+		console.log(list.userSimple.userHead)
+	}
+  }
 };
 </script>
 <style scoped>
@@ -79,9 +95,10 @@ export default {
 	.admin_pic{
 		flex: 1;
 	}
-	.admin_pic image{
+	.admin_pic img{
 		width: 47px;
 		height: 47px;
+		border-radius: 47px;
 	}
 	.admin_detial{
 		flex: 1;
@@ -98,18 +115,21 @@ export default {
 	.floor_ques{
 		font-size: 12px;
 		font-weight: 900;
-		padding-bottom: 8px;
+		padding-bottom: 9px;
 	}
 	.floor_type{
 		border-bottom: 1px solid #d9d9d9;
 		padding-bottom: 6px;
 	}
 	.floor_type text{
+		margin-right: 5px;
+		text-align: center;
+		line-height: 21px;
+		display: inline-block;
 		font-size: 8px;
 		border: #b5caff 1px solid;
 		height: 21px;
 		width: 49px;
-		padding: 2px;
 		border-radius: 21px;
 	}
 	.floor_pic{
