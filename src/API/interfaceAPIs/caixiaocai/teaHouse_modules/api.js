@@ -12,7 +12,11 @@ var api = {
     likeIt: _api_root + "post/like",
     unlikeIt: _api_root + "post/unlike",
     commonIt: _api_root + "post/createComment",
+<<<<<<< HEAD:src/API/interfaceAPIs/teahouse/api.js
     hotTag: _api_root + "post/topTag",
+=======
+    hotTag: _api_root + "post/topTag"
+>>>>>>> 5006488ffa4cecd0cd01fa24a10be5c79c93c06c:src/API/interfaceAPIs/caixiaocai/teaHouse_modules/api.js
   },
   medal: {
     getTeamMedal: _api_root + "badge/getTeamBadge",
