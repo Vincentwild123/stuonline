@@ -17,16 +17,12 @@
     <index-floor
       v-for="(item, index) in posts[activeType].list"
       :list="item"
-<<<<<<< HEAD
-    ></index-floor>
-=======
       @likeIt="likeIt"
       @unlikeIt="unlikeIt"
     ></index-floor>
     <view>
       <load-more :loadStatus="loadStatus"></load-more>
     </view>
->>>>>>> 5006488ffa4cecd0cd01fa24a10be5c79c93c06c
     <!--楼层结束-->
   </view>
 </template>
@@ -49,21 +45,6 @@ export default {
     return {
       posts: {
         talk: {
-<<<<<<< HEAD
-          page: 0,
-          list: [],
-        },
-        study: {
-          page: 0,
-          list: [],
-        },
-        team: {
-          page: 0,
-          list: [],
-        },
-        race: {
-          page: 0,
-=======
           list: [],
         },
         study: {
@@ -73,20 +54,16 @@ export default {
           list: [],
         },
         race: {
->>>>>>> 5006488ffa4cecd0cd01fa24a10be5c79c93c06c
           list: [],
         },
       },
       activeType: "talk",
-<<<<<<< HEAD
-=======
       postId: 0,
       pageSize: 4,
       loadStatus: "more", //加载样式：more-加载前样式，loading-加载中样式，nomore-没有数据样式
       isLoadMore: false, //是否加载中
       lastPostId: 999,
       firstLoad: true,
->>>>>>> 5006488ffa4cecd0cd01fa24a10be5c79c93c06c
     };
   },
   components: {
@@ -97,14 +74,6 @@ export default {
     LoadMore,
   },
   mounted() {
-<<<<<<< HEAD
-    this.getFloor();
-  },
-  methods: {
-    getFloor() {
-      getFloor(0, 10).then((res) => {
-        console.log(res);
-=======
     this.getFloor(this.postId, this.pageSize);
   },
   methods: {
@@ -126,7 +95,6 @@ export default {
           return;
         }
         this.firstLoad = false;
->>>>>>> 5006488ffa4cecd0cd01fa24a10be5c79c93c06c
         for (let i = 0; i < res.data.length; i++) {
           if (res.data[i].postSimple.postModule == 0) {
             this.posts["talk"].list.push(res.data[i]);
@@ -149,8 +117,6 @@ export default {
       let type = ["talk", "study", "team", "race"];
       this.activeType = type[index];
     },
-<<<<<<< HEAD
-=======
     //点赞
     likeIt(postId) {
       setLike(postId).catch(err=>{
@@ -172,7 +138,6 @@ export default {
       this.getFloor(this.postId, this.pageSize);
     }
     this.isLoadMore = false;
->>>>>>> 5006488ffa4cecd0cd01fa24a10be5c79c93c06c
   },
 };
 </script>
