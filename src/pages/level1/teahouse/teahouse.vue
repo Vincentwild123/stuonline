@@ -15,9 +15,9 @@
     <!-- 导航 结束 -->
     <!--楼层开始-->
     <index-floor
-	 v-for="(item, index) in posts[activeType].list"
-	 :list="item"
-	 ></index-floor>
+      v-for="(item, index) in posts[activeType].list"
+      :list="item"
+    ></index-floor>
     <!--楼层结束-->
   </view>
 </template>
@@ -30,28 +30,28 @@ import NoticeBar from "../../../components/content/NoticeBar.vue";
 
 import { getFloor } from "../../../axios/teahouse/teahouse.js";
 export default {
-  name:"teahouse",
+  name: "teahouse",
   data() {
     return {
       posts: {
-        "talk": {
+        talk: {
           page: 0,
           list: [],
         },
-        "study": {
+        study: {
           page: 0,
           list: [],
         },
-        "team": {
+        team: {
           page: 0,
           list: [],
         },
-        "race": {
+        race: {
           page: 0,
           list: [],
         },
       },
-	  activeType:"talk"
+      activeType: "talk",
     };
   },
   components: {
@@ -61,33 +61,32 @@ export default {
     NoticeBar,
   },
   mounted() {
-  	this.getFloor();
-   },
+    this.getFloor();
+  },
   methods: {
     getFloor() {
       getFloor(0, 10).then((res) => {
-		  console.log(res)
+        console.log(res);
         for (let i = 0; i < res.data.length; i++) {
           if (res.data[i].postSimple.postModule == 0) {
-                this.posts['talk'].list.push(res.data[i])
+            this.posts["talk"].list.push(res.data[i]);
           } else if (res.data[i].postSimple.postModule == 1) {
-                this.posts['study'].list.push(res.data[i])
+            this.posts["study"].list.push(res.data[i]);
           } else if (res.data[i].postSimple.postModule == 2) {
-                this.posts['team'].list.push(res.data[i])
+            this.posts["team"].list.push(res.data[i]);
           } else {
-                this.posts['race'].list.push(res.data[i])
+            this.posts["race"].list.push(res.data[i]);
           }
         }
       });
     },
-	changeType(index){
-		let type = ["talk","study","team","race"];
-		this.activeType = type[index]
-	}
+    changeType(index) {
+      let type = ["talk", "study", "team", "race"];
+      this.activeType = type[index];
+    },
   },
 };
 </script>
-
 
 <style scoped>
 .main {
