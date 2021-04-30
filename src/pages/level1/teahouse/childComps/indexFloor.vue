@@ -10,24 +10,27 @@
           </view>
           <view class="admin_detial">
             <view class="admin_name">{{list.userSimple.userName}}</view>
-            <view class="admin_time">6分钟前</view>
+            <view class="admin_time">{{getTime}}</view>
           </view>
         </view>
         <view class="grade">
-          <image src="../../../../UI/grade.png" mode="widthFix"></image>
+			<img v-for="(item,index) in list.userBadges" v-bind:src="item" mode="widthFix"></img>
         </view>
       </view>
       <view class="floor_ques">{{list.postSimple.postText}}</view>
+	  <view class="floor_pic">
+        <img v-for="(item,index) in list.postImages" :src="item" alt="" mode="widthFix">
+      </view>
       <view class="floor_type">
         <text v-for="(item,index) in list.tagList">#{{item}}</text>
       </view>
-      <view class="floor_pic"> </view>
       <view class="others">
         <view class="common">
           <image src="../../../../UI/pinglun.png" mode=""></image>评论
         </view>
-        <view class="dianzan">
-          <image src="../../../../UI/dianzan.png" mode=""></image>点赞
+        <view class="dianzan" @click="likeIt(list.postSimple.postId)">
+          <image v-if="list.like" src="../../../../UI/undianzan.png" mode=""></image>
+		  <image v-else src="../../../../UI/dianzan.png" mode=""></image>点赞
         </view>
       </view>
     </view>
@@ -53,9 +56,35 @@ export default {
 	          }
 	        }
   },
+  computed:{
+            getTime(){
+				let postDate = this.list.postSimple.postDatetime;
+				let nowDate = new Date();
+				let date = Date.parse(nowDate) - Date.parse(postDate);
+				let diffdate=new Date(date);
+				if(diffdate.getMonth()>0){
+					return "很久以前";
+				}else if(diffdate.getDate()>0){
+					return diffdate.getDate()+"天前";
+				}else if(diffdate.getHours()>0){
+					return diffdate.getHours()+"小时前";
+				}else if(diffdate.getMinutes()>0){
+					return diffdate.getMinutes()+"分钟前"
+				}else{
+					return "刚刚发布";
+				}
+            }
+            
+        },
   methods:{
-	show(){
-		console.log(list.userSimple.userHead)
+	likeIt(postId){
+		console.log(postId);
+		if(this.list.like){
+			this.$emit('unlikeIt',postId);
+		}else{
+			this.$emit('likeIt',postId);
+		}
+		this.list.like=!this.list.like;//状态取反
 	}
   }
 };
@@ -132,9 +161,13 @@ export default {
 		width: 49px;
 		border-radius: 21px;
 	}
-	.floor_pic{
+.floor_pic {
 
-	}
+}
+.floor_pic img{
+  height: 80px;
+  padding: 3px 5px;
+}
 	.others{
 		display: flex;
 		font-size: 10px;

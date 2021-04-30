@@ -6,29 +6,29 @@
       <view class="floor_person">
         <view class="person_detial">
           <view class="admin_pic">
-            <image src="../../../../UI/touxiang.png" mode="widthFix"></image>
+            <img v-bind:src="list.userSimple.userHead" mode="widthFix"></img>
           </view>
           <view class="admin_detial">
-            <view class="admin_name">Care</view>
-            <view class="admin_time">6分钟前</view>
+            <view class="admin_name">{{list.userSimple.userName}}</view>
+            <view class="admin_time">{{getTime}}</view>
           </view>
         </view>
         <view class="grade">
-          <image src="../../../../UI/grade.png" mode="widthFix"></image>
+          <img v-for="(item,index) in list.userBadges" v-bind:src="item" mode="widthFix"></img>
         </view>
         <view class="accept">
           <image src="../../../../UI/accept.png" mode=""></image>
         </view>
       </view>
-      <view class="floor_ques"> 什么时候出考试安排？ </view>
+      <view class="floor_ques">{{list.postSimple.postText}}</view>
+      <view class="floor_pic">
+        <img v-for="(item,index) in list.postImages" :src="item" alt="" mode="widthFix">
+      </view>
       <view class="acceptPart">
         <view class="acceptNum">
           <image src="../../../../UI/touxiang.png" mode="widthFix"></image>
         </view>
         <view class="acceptmesg">3人接收任务</view>
-      </view>
-      <view class="floor_pic"> </view>
-     
       </view>
     </view>
   </view>
@@ -40,6 +40,34 @@ export default {
   name: "TaskFloor",
   data() {
     return {};
+  },
+  props: {
+    list: {
+      type: Object,
+
+      default() {
+        return [];
+      },
+    },
+  },
+  computed: {
+    getTime() {
+      let postDate = this.list.postSimple.postDatetime;
+      let nowDate = new Date();
+      let date = Date.parse(nowDate) - Date.parse(postDate);
+      let diffdate = new Date(date);
+      if (diffdate.getMonth() > 0) {
+        return "很久以前";
+      } else if (diffdate.getDate() > 0) {
+        return diffdate.getDate() + "天前";
+      } else if (diffdate.getHours() > 0) {
+        return diffdate.getHours() + "小时前";
+      } else if (diffdate.getMinutes() > 0) {
+        return diffdate.getMinutes() + "分钟前";
+      } else {
+        return "刚刚发布";
+      }
+    },
   },
 };
 </script>
@@ -85,9 +113,10 @@ export default {
 .admin_pic {
   flex: 1;
 }
-.admin_pic image {
+.admin_pic img {
   width: 47px;
   height: 47px;
+  border-radius: 47px;
 }
 .admin_detial {
   flex: 1;
@@ -106,23 +135,27 @@ export default {
   font-weight: 900;
   padding-bottom: 8px;
 }
-.acceptPart{
-	font-size: 9px;
-    display: flex;
+.acceptPart {
+  font-size: 9px;
+  display: flex;
 }
-.acceptNum{
-    flex: 1;
+.acceptNum {
+  flex: 1;
 }
-.acceptmesg{
-	padding-right:5px ;
-    text-align: right;
-    flex: 1;
+.acceptmesg {
+  padding-right: 5px;
+  text-align: right;
+  flex: 1;
 }
 .acceptNum image {
   height: 25px;
   width: 25px;
 }
 .floor_pic {
-}
 
+}
+.floor_pic img{
+  height: 80px;
+  padding: 3px 5px;
+}
 </style>

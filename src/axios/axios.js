@@ -255,6 +255,27 @@ export class Axios {
         });
     }
 
+        // delete请求
+        delete(
+            url,
+            data, {
+                timeout = this.config.timeout,
+                dataType = this.config.dataType,
+                responseType = this.config.responseType,
+                ContentType = this.config.ContentType,
+                token = this.config.token,
+            } = {}
+        ) {
+            return this.request(url, data, {
+                method: "DELETE",
+                timeout,
+                dataType,
+                responseType,
+                ContentType,
+                token,
+            });
+        }
+
     // 检查是否是promise
     _checkIsPromise(obj) {
         if (!obj) {
