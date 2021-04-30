@@ -12,15 +12,20 @@ httpInstance.interceptors.request.use(
     // config.Authorization = 'Cxm Token'
     config.token =
       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjAzNzY5MTAsInVzZXJJZCI6IjEifQ.mKVnF9NtU55Ea0wDZj6mWzqFPo_SGz08Iox0_eeQ5kw";
-    console.log('%c  -------------------- %caxios %c---------------------',"color:white","color:#ADFF2F","color:white")
     console.log(
-      "  %cINFO:%cREQUEST SEND %c(" + new Date().toLocaleTimeString() + ")",
+      "%c-------------------- %caxios %c---------------------",
+      "color:white",
+      "color:#ADFF2F;font-size:15px;font-weight:800",
+      "color:white"
+    );
+    console.log(
+      "%c📧: %cREQUEST SEND %c(" + new Date().toLocaleTimeString() + ")",
       "color: #00CED1; font-weight:bold;font-size:15px",
       "color: yellow",
       "color: white"
     );
     console.log(
-      "  %cThe following is the configuration of this request",
+      "👇 %cThe following is the configuration of this request",
       "color:yellow"
     );
     console.dir(config);
@@ -35,17 +40,22 @@ httpInstance.interceptors.request.use(
 httpInstance.interceptors.response.use(
   (response) => {
     console.log(
-      "  %cINFO:%cRESPONSE RECEIVED %c(" + new Date().toLocaleTimeString() + ")",
+      "%c📩: %cRESPONSE RECEIVED %c(" + new Date().toLocaleTimeString() + ")",
       "color: #00CED1; font-weight: bold;font-size:15px",
       "color: yellow",
       "color: white"
     );
     console.log(
-      "  %cThe following is the result returned this time",
-      "color:yellow",
+      "👇 %cThe following is the result returned this time",
+      "color:yellow"
     );
     console.dir(response); //     console.log(response);
-    console.log('%c  -------------------- %caxios %c---------------------',"color:white","color:#ADFF2F","color:white")
+    console.log(
+      "%c-------------------- %caxios %c---------------------",
+      "color:white",
+      "color:#ADFF2F;font-size:15px;font-weight:800",
+      "color:white"
+    );
     return response;
   },
   (error) => {
