@@ -23,6 +23,6 @@ var api = {
   notice: {
     getNoticeCount: _api_root + "notice/getNoticeCount",
     getNotice: _api_root + "notice/getNotice",
-  }
+  },
 };
 export default api;

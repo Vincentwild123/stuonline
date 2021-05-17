@@ -144,7 +144,6 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .main {
   padding: 0 10px;
