@@ -110,6 +110,8 @@ export default {
         this.loadStatus = "more";
         this.postId += this.pageSize;
       }).catch((err)=>{
+		   this.isLoadMore = false;
+		   this.loadStatus = "nomore";
 		  console.log(err);
 	  });
     },

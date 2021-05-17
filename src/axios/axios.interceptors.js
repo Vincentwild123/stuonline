@@ -10,7 +10,7 @@ const httpInstance = Axios.create({
 httpInstance.interceptors.request.use(
     async (config) => {
             // config.Authorization = 'Cxm Token'
-			config.token='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjAyMjA5NzYsInVzZXJJZCI6IjEifQ.qWmjN4r_0QX3orwlgUTF4CpGSkO6k7Kex2aS7JXU1dQ';
+			config.token='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1N1iJ9.eyJleHAiOjE2MjE4NjE1MDEsInVzZXJJZCI6IjEifQ.NyonC9lH41n6gIoX3fqb_Kq9osheTXywFz-Jixg5pvA';
        //     console.log("请求配置：");
             return config;
         },
