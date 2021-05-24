@@ -9,7 +9,7 @@ const config = {
     // type of the reponse data
     reponseType: 'json',
 	headers:{
-		token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjAzNzY5MTAsInVzZXJJZCI6IjEifQ.mKVnF9NtU55Ea0wDZj6mWzqFPo_SGz08Iox0_eeQ5kw"
+		token:"sdfeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjI0MTg2MDgsInVzZXJJZCI6IjEifQ.TvC9nL78ArYCpQqPwCciJ3Ji5yW6Ef8KwH5NSDHPiyI"
 	}
 }
 export default config;

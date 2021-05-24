@@ -1,4 +1,5 @@
 <template>
+<scroll-view   scroll-y="true" class="scrollY">
   <view class="main">
     <!-- 轮播图 开始 -->
     <!--滚动条开始-->
@@ -25,6 +26,7 @@
     </view>
     <!--楼层结束-->
   </view>
+</scroll-view>
 </template>
 
 <script>
@@ -147,5 +149,14 @@ export default {
 <style scoped>
 .main {
   padding: 0 10px;
+}
+.scrollY{
+	margin-top: 6vh;
+	height: 94vh;
+}
+::-webkit-scrollbar {
+width: 0;
+height: 0;
+background-color: transparent;
 }
 </style>
