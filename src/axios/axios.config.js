@@ -8,11 +8,5 @@ const config = {
     withCredentials: false, // default
     // type of the reponse data
     reponseType: 'json',
-<<<<<<< HEAD
-=======
-	headers:{
-		token:"sdfeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjI0MTg2MDgsInVzZXJJZCI6IjEifQ.TvC9nL78ArYCpQqPwCciJ3Ji5yW6Ef8KwH5NSDHPiyI"
-	}
->>>>>>> 63b7eeec3f20abbdda6f6ec397e2121d374a4541
 }
 export default config;
