@@ -1,5 +1,5 @@
 import api from '../../API/interfaceAPIs/caixiaocai/teaHouse_modules/api.js';
-import axios from "../index.js";
+import axios from "../axios.interceptors.js";
 
 export function getFloor(postId, limit) {
 	return axios.get(api.card.listCard + '/' + postId + '/' + limit, {

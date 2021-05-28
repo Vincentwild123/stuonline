@@ -1,1 +1,0 @@
-<view class="_div"><view class="index_swiper"><swiper autoplay="{{true}}" indicator-dots="{{true}}" circular="{{true}}"><block wx:for="{{banners}}" wx:for-item="item" wx:for-index="id" wx:key="id"><swiper-item><navigator url="www.baidu.com"><image mode="widthFix" src="../../../UI/swiper.png"></image></navigator></swiper-item></block></swiper></view></view>

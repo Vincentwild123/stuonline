@@ -1,5 +1,10 @@
 {
 	"pages": [{
+		"path": "src/pages/level2/login/login",
+		"style": {
+			"navigatorBarTitleText": "登錄"
+		}
+	}, {
 		"path": "src/pages/level1/profile/profile"
 	}, {
 		"path": "src/pages/level1/teahouse/teahouse"
@@ -7,10 +12,10 @@
 		"path": "src/pages/level1/home/home"
 	}, {
 		"path": "src/pages/level1/team/team"
-	},{
+	}, {
 		"path": "src/pages/level2/teahouse/taskHall",
-		"style":{ 
-			"navigatorBarTitleText":"任务大厅"
+		"style": {
+			"navigatorBarTitleText": "任务大厅"
 		}
 	}],
 	"tabBar": {
@@ -42,13 +47,13 @@
 		]
 	},
 	"globalStyle": {
-			"navigationBarTextStyle": "white",
-			"navigationBarTitleText": "uni-app",
-			"navigationBarBackgroundColor": "#007AFF",
-			"backgroundColor": "#FFFFFF",
-			"navigationStyle":"custom",
-			"app-plus":{
-				"titleNView":false
-			}
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#007AFF",
+		"backgroundColor": "#FFFFFF",
+		"navigationStyle": "custom",
+		"app-plus": {
+			"titleNView": false
+		}
 	}
 }

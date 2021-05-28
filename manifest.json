@@ -44,6 +44,9 @@
             "ios" : {},
             /* SDK配置 */
             "sdkConfigs" : {}
+        },
+        "splashscreen" : {
+            "waiting" : true
         }
     },
     /* 快应用特有相关 */

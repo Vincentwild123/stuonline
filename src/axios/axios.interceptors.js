@@ -1,24 +1,10 @@
 import Axios from "./axios.js";
-
+import config from './axios.config.js'
 // 初始化axios，并返回一个axios的实例
-const httpInstance = Axios.create({
-  timeout: 5000,
-  baseURL: "http://localhost:3000",
-});
+const httpInstance = Axios.create(config);
 
 // 请求前拦截，一般进行一些权限的校验，如加入token或其他请求头
 httpInstance.interceptors.request.use(
-<<<<<<< HEAD
-    async (config) => {
-            // config.Authorization = 'Cxm Token'
-			config.token='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1N1iJ9.eyJleHAiOjE2MjE4NjE1MDEsInVzZXJJZCI6IjEifQ.NyonC9lH41n6gIoX3fqb_Kq9osheTXywFz-Jixg5pvA';
-       //     console.log("请求配置：");
-            return config;
-        },
-        (error) => {
-            //console.log("请求错误:" + error);
-        }
-=======
   async (config) => {
     // config.Authorization = 'Cxm Token'
     config.token =
@@ -45,7 +31,6 @@ httpInstance.interceptors.request.use(
   (error) => {
     //console.log("请求错误:" + error);
   }
->>>>>>> 5d1971e2bb1b337d139bea185cec7623f9b4600e
 );
 
 // 响应前拦截，一般进行响应数据的过来，判断是不是成功的响应
