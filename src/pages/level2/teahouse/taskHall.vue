@@ -1,5 +1,7 @@
 <!-- 任务大厅  -->
 <template>
+<scroll-view   scroll-y="true" class="scrollY">
+  <view class="main">
   <view class="taskHall">
     <!--头部导航栏开始-->
     <navigator-bar>
@@ -37,6 +39,8 @@
     <!--通知栏开始-->
     <!--通知栏结束-->
   </view>
+  </view>
+</scroll-view>
 </template>
 
 <script>
@@ -118,7 +122,11 @@ export default {
         this.isLoadMore = false;
         this.loadStatus = "more";
         this.postId += this.pageSize;
-      });
+      }).catch((err)=>{
+		   this.isLoadMore = false;
+		   this.loadStatus = "nomore";
+		  console.log(err);
+	  });;
     },
     changeType(index) {
       let type = ["talk", "study", "team", "race"];
@@ -137,7 +145,16 @@ export default {
 };
 </script>
 <style scoped>
-.taskHall {
+.main {
   padding: 0 10px;
+}
+.scrollY{
+	margin-top: 6vh;
+	height: 94vh;
+}
+::-webkit-scrollbar {
+width: 0;
+height: 0;
+background-color: transparent;
 }
 </style>

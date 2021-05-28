@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
 	<view class="main">
 		<!-- 轮播图 开始 -->
 		<!--滚动条开始-->
@@ -21,6 +22,36 @@
 		</view>
 		<!--楼层结束-->
 	</view>
+=======
+<scroll-view   scroll-y="true" class="scrollY">
+  <view class="main">
+    <!-- 轮播图 开始 -->
+    <!--滚动条开始-->
+    <view class="indexNotice">
+      <notice-bar></notice-bar>
+    </view>
+    <!--滚动条结束-->
+    <view class="indexSwiper">
+      <index-swiper></index-swiper>
+    </view>
+    <!-- 轮播图 结束 -->
+    <!-- 导航 开始 -->
+    <index-cate @changeType="changeType"></index-cate>
+    <!-- 导航 结束 -->
+    <!--楼层开始-->
+    <index-floor
+      v-for="(item, index) in posts[activeType].list"
+      :list="item"
+      @likeIt="likeIt"
+      @unlikeIt="unlikeIt"
+    ></index-floor>
+    <view>
+      <load-more :loadStatus="loadStatus"></load-more>
+    </view>
+    <!--楼层结束-->
+  </view>
+</scroll-view>
+>>>>>>> 63b7eeec3f20abbdda6f6ec397e2121d374a4541
 </template>
 
 <script>
@@ -142,7 +173,22 @@
 </script>
 
 <style scoped>
+<<<<<<< HEAD
 	.main {
 		padding: 0 10px;
 	}
+=======
+.main {
+  padding: 0 10px;
+}
+.scrollY{
+	margin-top: 6vh;
+	height: 94vh;
+}
+::-webkit-scrollbar {
+width: 0;
+height: 0;
+background-color: transparent;
+}
+>>>>>>> 63b7eeec3f20abbdda6f6ec397e2121d374a4541
 </style>

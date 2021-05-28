@@ -139,6 +139,7 @@ export default {
 		color: black;
 	}
 	.admin_time{
+		width: 55px;
 		font-size: 12px;
 		color: darkgray;
 	}
