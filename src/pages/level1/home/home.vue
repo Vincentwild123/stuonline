@@ -3,7 +3,11 @@
 </template>
 
 <script>
-import { loginWithToken } from "../../../API/interfaceAPIs/chenwenjun/loginPage.js";
+import {
+  loginWithToken,
+  getFormUploadToken,
+} from "../../../API/interfaceAPIs/chenwenjun/loginPage.js";
+import { showToast, setStorage } from "../../../API/localAPIs/index.js";
 export default {
   data() {
     return {};
@@ -16,6 +20,19 @@ export default {
           url: "../../level2/login/login",
         });
       }
+      //获取表单上传token
+      getFormUploadToken().then((token) => {
+        if (!token) {
+          showToast("登录信息过期或不合法");
+          setTimeout(() => {
+            uni.navigateTo({
+              url: "../../level2/login/login",
+            });
+          }, 1500);
+          return;
+        }
+        setStorage("formToken", token);
+      });
     });
   },
 };

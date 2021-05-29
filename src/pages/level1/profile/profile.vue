@@ -1,52 +1,13 @@
 <template>
-  <!-- 头像及登陆页面 -->
   <view class="page">
-    <view class="info_board">
-      <view class="profile_info_box">
-        <image
-          @click="toLoginPage"
-          class="profile_info_avatar"
-          :src="user.avatar"
-          mode="heightFix"
-        ></image>
-        <view class="meta_info_box">
-          <view class="meta_user_name">
-            {{ user.name }}
-          </view>
-          <view class="meta_user_ID"> ID: {{ user.ID }} </view>
-          <view class="meta_user_medals">
-            <template v-for="(item, index) of user.medals">
-              <image
-                :key="index"
-                :src="item"
-                class="meta_user_medal"
-                mode="widthFix"
-              ></image>
-            </template>
-          </view>
-        </view>
-      </view>
-      <!-- ia:交互数据 -->
-      <view class="ia_info_box">
-        <view class="show_info_box">
-          <template v-for="(item, index) in iaData">
-            <view class="show_info_item" :key="index">
-              <view class="current_data">
-                {{ item.num }}
-              </view>
-              <view class="item_name">
-                {{ item.name }}
-              </view>
-            </view>
-          </template>
-        </view>
-        <image
-          src="/static/icons/profile/btn_edit_info.png"
-          class="btn_edit"
-          mode="aspectFill"
-        ></image>
-      </view>
-    </view>
+    <!-- ia:交互数据 -->
+    <UserCard
+	:avatar='user.avatar'
+	:name='user.name'
+	:ID='user.ID'
+	:medals='user.medals'
+	:iaData='user.iaData'
+	></UserCard>
     <view class="mine_row">
       <view class="mine_row_box">
         <image
@@ -98,8 +59,9 @@
     </view>
   </view>
 </template>
-
 <script>
+import UserCard from "../../../components/profile/UserCard.vue";
+import { getStorage } from "../../../API/localAPIs/index.js";
 export default {
   data() {
     return {
@@ -112,21 +74,21 @@ export default {
           "/static/icons/profile/medal.png",
           "/static/icons/profile/medal.png",
         ],
+        iaData: [
+          {
+            name: "发帖",
+            count: 1,
+          },
+          {
+            name: "评论",
+            count: 13,
+          },
+          {
+            name: "获赞",
+            count: 7,
+          },
+        ],
       },
-      iaData: [
-        {
-          name: "发帖",
-          num: 1,
-        },
-        {
-          name: "评论",
-          num: 13,
-        },
-        {
-          name: "获赞",
-          num: 7,
-        },
-      ],
       additions: [
         {
           name: "设置",
@@ -146,6 +108,19 @@ export default {
         },
       ],
     };
+  },
+  onLoad() {
+    //检查token
+    const token = getStorage("userToken");
+    if (!token) {
+      switchTab({
+        url: "/pages/level1/home/home",
+      });
+    }
+    //获取用户数据
+  },
+  components: {
+    UserCard,
   },
   methods: {
     toLoginPage() {
@@ -173,84 +148,6 @@ export default {
   background-color: rgb(226, 226, 226);
   color: #383838;
 }
-
-/* 信息背景栏 */
-.info_board {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: space-around;
-  height: 36%;
-  padding-top: 80rpx;
-  background-image: url(../../../../static/img/profile_infoBoard_bg.jpg);
-}
-
-.profile_info_box {
-  height: 200rpx;
-  display: flex;
-  margin: 10rpx 40rpx;
-}
-
-.meta_user_medal {
-  max-width: 50rpx;
-  max-height: 70rpx;
-}
-
-.meta_user_name {
-  font-size: 1.26em;
-  font-weight: 900;
-}
-
-.meta_user_ID {
-  font-size: 0.9em;
-  font-weight: bold;
-}
-
-.profile_info_avatar {
-  max-width: 180rpx;
-  max-height: 180rpx;
-}
-
-.meta_info_box {
-  margin-left: 30rpx;
-  padding: 10rpx 0;
-  text-align: left;
-}
-
-.meta_info_box view {
-  margin: 10rpx 10rpx;
-}
-
-.ia_info_box {
-  display: flex;
-  color: white;
-  padding: 0 40rpx 0 80rpx;
-}
-
-.current_data {
-  font-weight: bold;
-  text-align: center;
-}
-
-.show_info_box {
-  display: flex;
-  width: 70%;
-  justify-content: space-around;
-}
-
-.item_name {
-  font-size: 20rpx;
-  text-align: center;
-  margin: 5rpx 0;
-}
-
-.btn_edit {
-  max-width: 165rpx;
-  max-height: 41rpx;
-  align-self: flex-end;
-  margin-left: 40rpx;
-}
-
 .mine_row {
   width: 100vw;
   display: flex;

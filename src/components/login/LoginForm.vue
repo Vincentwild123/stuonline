@@ -45,7 +45,6 @@
     </view>
   </view>
 </template>
-1
 <script>
 export default {
   props: {

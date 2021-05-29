@@ -1,4 +1,4 @@
-import axios from "../../../axios/axios.interceptors.js"
+import axios from "../../../axios/axios.interceptors.js";
 import { checkStatusCode } from "../../../utils/checkers.js";
 import {
   showLoading,
@@ -102,7 +102,7 @@ export async function loginWithAcctPass({ account, password }) {
       userAccount: account,
       userPwd: password,
     });
-    hideLoading()
+    hideLoading();
     const ret = {
       message: "登陆成功",
       token: undefined,
@@ -120,6 +120,28 @@ export async function loginWithAcctPass({ account, password }) {
         throw new Error("异常状态码");
     }
     return ret;
+  } catch (e) {
+    throw e;
+  }
+}
+//获取表单上传token
+export async function getFormUploadToken() {
+  try {
+    const data = await axios.get("/user/auth", null, {
+      token: getStorage("userToken"),
+    });
+    const { status } = data.data;
+    let token = undefined;
+    switch (status) {
+      case 200:
+        token = data.data.data;
+        break;
+      case 400:
+      case 401:
+      default:
+        throw new Error("异常状态码");
+    }
+    return token;
   } catch (e) {
     throw e;
   }
