@@ -2,7 +2,7 @@
 <template>
   <view class="index_cate">
     <navigator url="/src/pages/level2/teahouse/taskHall" class="left">
-      <image src="../../../../UI/rewudating.png" mode="widthFix"></image>
+      <image src="../../UI/rewudating.png" mode="widthFix"></image>
     </navigator>
     <view class="center">
       <view class="center_item" 
@@ -12,7 +12,7 @@
 	  >{{item}}</view>
     </view>
     <navigator url="" class="right">
-      <image src="../../../../UI/fatie.png" mode="widthFix"></image>
+      <image src="../../UI/fatie.png" mode="widthFix"></image>
     </navigator>
   </view>
 </template>

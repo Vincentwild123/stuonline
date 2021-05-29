@@ -4,7 +4,7 @@
     <swiper autoplay indicator-dots circular>
       <swiper-item v-for="(item, id) in banners" :key="id">
         <navigator url="www.baidu.com">
-          <image mode="widthFix" src="../../../../UI/swiper.png"></image>
+          <image mode="widthFix" src="../../UI/swiper.png"></image>
         </navigator>
       </swiper-item>
     </swiper>

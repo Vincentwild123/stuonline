@@ -26,11 +26,11 @@
       </view>
       <view class="others">
         <view class="common">
-          <image src="../../../../UI/pinglun.png" mode=""></image>评论
+          <image src="../../UI/pinglun.png" mode=""></image>评论
         </view>
         <view class="dianzan" @click="likeIt(list.postSimple.postId)">
-          <image v-if="list.like" src="../../../../UI/undianzan.png" mode=""></image>
-		  <image v-else src="../../../../UI/dianzan.png" mode=""></image>点赞
+          <image v-if="list.like" src="../../UI/undianzan.png" mode=""></image>
+		  <image v-else src="../../UI/dianzan.png" mode=""></image>点赞
         </view>
       </view>
     </view>

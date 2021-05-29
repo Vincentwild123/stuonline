@@ -1,5 +1,5 @@
 import Axios from "./axios.js";
-import config from './axios.config.js'
+import config from "./axios.config.js";
 // 初始化axios，并返回一个axios的实例
 const httpInstance = Axios.create(config);
 
@@ -8,7 +8,7 @@ httpInstance.interceptors.request.use(
   async (config) => {
     // config.Authorization = 'Cxm Token'
     config.token =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6IueIuOeIuCIsImV4cCI6MTYyMjM1ODI5MSwidXNlcklkIjoiMSJ9.XD9sLWDuDv9wtv9VTGXOaFa16PB0UbqBmKjWU2TnisA";
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6IueIuOeIuCIsImV4cCI6MTYyMjg2MjI5OSwidXNlcklkIjoiNiJ9.8kzzlROFtadiGnjo97r94Mqy52OOV3tYPAjOVZav-r8";
     console.log(
       "%c-------------------- %caxios %c---------------------",
       "color:white",
@@ -29,7 +29,8 @@ httpInstance.interceptors.request.use(
     return config;
   },
   (error) => {
-    //console.log("请求错误:" + error);
+    console.log("请求错误:" + error);
+    return Promise.reject(error);
   }
 );
 

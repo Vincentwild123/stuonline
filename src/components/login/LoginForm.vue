@@ -12,7 +12,7 @@
           <!-- 输入框 -->
           <input
             type="text"
-            :value="account"
+            v-model="account"
             :placeholder="account_item_placeholder"
           />
           <!-- 后缀 -->
@@ -30,7 +30,7 @@
           <!-- 输入框 -->
           <input
             type="password"
-            :value="password"
+            v-model="password"
             :placeholder="password_item_placeholder"
           />
           <!-- 后缀 -->
@@ -39,7 +39,7 @@
       </view>
     </view>
     <view class="submit_btn_box">
-      <view class="submit_btn"
+      <view @click="emitLoginEvent" class="submit_btn"
         ><text>{{ submit_btn_desc }}</text></view
       >
     </view>
@@ -98,6 +98,15 @@ export default {
       password: "",
     };
   },
+  methods: {
+    emitLoginEvent() {
+      const payload = {
+        account: this.account,
+        password: this.password,
+      };
+      this.$emit("LOGIN", payload);
+    },
+  },
 };
 </script>
 
@@ -112,8 +121,8 @@ export default {
 .login_form > view > view {
   margin: 16rpx 0;
 }
-.item_name{
-	font-weight:bold;
+.item_name {
+  font-weight: bold;
 }
 .input_box {
   display: flex;

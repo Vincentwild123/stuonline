@@ -55,7 +55,7 @@
     </view>
 
     <view class="submit_btn_box">
-      <view class="submit_btn"
+      <view @click="emitRegisterEvent" class="submit_btn"
         ><text>{{ submit_btn_desc }}</text></view
       >
     </view>
@@ -130,6 +130,14 @@ export default {
         return;
       }
       this.$emit("GETCODE", account);
+    },
+    emitRegisterEvent() {
+      const payload = {
+        account:this.account,
+        password:this.password,
+        vercode:this.vercode
+      }
+      this.$emit('REGISTER',payload);
     },
   },
 };

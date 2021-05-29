@@ -27,11 +27,12 @@
       </view>
       <view class="content">
         <view v-if="isLogin">
-          <LoginForm v-bind="loginFormProps"></LoginForm>
+          <LoginForm @LOGIN="onLogin" v-bind="loginFormProps"></LoginForm>
         </view>
         <view v-else>
           <RegisterForm
             @GETCODE="onGetCode"
+            @REGISTER="onRegister"
             v-bind="registerFormProps"
           ></RegisterForm>
         </view>
@@ -41,23 +42,30 @@
 </template>
 
 <script>
-import LoginForm from "./components/LoginForm.vue";
-import RegisterForm from "./components/RegisterForm.vue";
-import { checkAccount } from "../../../utils/checkers.js";
+import LoginForm from "../../../components/login/LoginForm.vue";
+import RegisterForm from "../../../components/login/RegisterForm.vue";
+import { checkAccount, checkObjectNoEmpty } from "../../../utils/checkers.js";
 import {
-  getVerCode,
   isStudent,
-} from "../../../API/interfaceAPIs/chenwenjun/login_module/index.js";
+  register,
+  getVerCode,
+  loginWithAcctPass,
+} from "../../../API/interfaceAPIs/chenwenjun/loginPage.js";
+import { showToast, setStorage } from "../../../API/localAPIs/index.js";
 import opts from "./loginPageOpts.js";
-import { showToast } from "../../../API/localAPIs/index.js";
 export default {
   data() {
     return {
       isLogin: true,
+      hadGetVerCode: false,
       //登录组件配置
-      loginFormProps: opts.loginFormProps,
+      loginFormProps: {
+        ...opts.loginFormProps,
+      },
       //注册组件配置
-      registerFormProps: opts.registerFormProps,
+      registerFormProps: {
+        ...opts.registerFormProps,
+      },
       //发送邮件冷却倒计时
       countDown: opts.countDown,
       tips: opts.tips.LOGIN,
@@ -72,31 +80,95 @@ export default {
       this.isLogin = !this.isLogin;
       this.tips = this.isLogin ? opts.tips.LOGIN : opts.tips.REGISTER;
     },
+    reSet(timer) {
+      if (!timer) return;
+      clearInterval(timer);
+      this.hadGetVerCode = false;
+      this.countDown = opts.countDown;
+      this.registerFormProps.getCode_btn_desc =
+        opts.registerFormProps.getCode_btn_desc;
+    },
     onGetCode(account) {
+      this.hadGetVerCode = true;
+      let timer;
       if (this.countDown != opts.countDown) return;
       //检查是否满足校园网账号格式
       if (checkAccount(account)) {
         //检查是否为本校学生
-        if (isStudent(account)) {
-          const timer = setInterval(() => {
-            //倒计时为0，恢复功能
-            if (this.countDown == 0) {
-              clearInterval(timer);
-              this.countDown = opts.countDown;
-              this.registerFormProps.getCode_btn_desc =
-                opts.registerFormProps.getCode_btn_desc;
+        isStudent(account)
+          .then((bool) => {
+            //是学生
+            if (bool) {
+              timer = setInterval(() => {
+                //倒计时为0，恢复功能
+                if (!this.countDown) {
+                  reSet(timer);
+                  return;
+                }
+                this.registerFormProps.getCode_btn_desc = this.countDown--;
+              }, 1000);
+              //获取验证码到邮箱
+              getVerCode(account).catch((err) => {
+                if (timer) this.reSet(timer);
+                console.error(err);
+              });
               return;
             }
-            this.registerFormProps.getCode_btn_desc = this.countDown--;
-          }, 1000);
-          //获取验证码到邮箱
-          getVerCode(account).catch((err) => {
+            showToast("检测到你不是本校学生");
+          })
+          .catch((err) => {
             console.error(err);
           });
-          return;
-        }
-        showToast("检测到你不是本校学生");
       } else showToast("非法的校园网账号");
+    },
+    onRegister(payload) {
+      //表单需要完整
+      if (!checkObjectNoEmpty(payload)) {
+        showToast("请完整填写表单");
+        return;
+      }
+      //需先获取验证码
+      if (!this.hadGetVerCode) {
+        showToast("请先获取验证码");
+        return;
+      }
+      register(payload)
+        .then((ret) => {
+          if (ret && ret.token) {
+            showToast("注册成功!即将跳转");
+            setStorage("userToken", ret.token);
+            setTimeout(() => {
+              this.isLogin = true;
+            }, 1500);
+            return;
+          }
+          showToast(ret.message);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    onLogin(payload) {
+      //表单需要完整
+      if (!checkObjectNoEmpty(payload)) {
+        showToast("请完整填写表单");
+        return;
+      }
+      loginWithAcctPass(payload)
+        .then((ret) => {
+          if (ret && ret.token) {
+            showToast("登录成功,即将跳转");
+            setStorage("userToken", ret.token);
+            setTimeout(() => {
+              uni.switchTab({
+                url: "/src/pages/level1/home/home",
+              });
+            }, 1500);
+            return;
+          }
+          showToast(ret.message);
+        })
+        .catch((e) => console.error(e));
     },
   },
 };
@@ -107,6 +179,7 @@ export default {
   box-sizing: border-box;
   font-family: "Helvetica";
 }
+
 .bg_image {
   overflow: hidden;
   height: 580rpx;

@@ -30,9 +30,9 @@
 </template>
 
 <script>
-import indexSwiper from "./childComps/indexSwiper.vue";
-import IndexFloor from "./childComps/indexFloor.vue";
-import IndexCate from "./childComps/indexCate.vue";
+import indexSwiper from "../../../components/teahouse/IndexSwiper.vue";
+import indexFloor from "../../../components/teahouse/IndexFloor.vue";
+import indexCate from "../../../components/teahouse/IndexCate.vue";
 import NoticeBar from "../../../components/content/NoticeBar.vue";
 import LoadMore from "../../../components/content/LoadMore.vue";
 
@@ -69,9 +69,9 @@ export default {
     };
   },
   components: {
-    IndexFloor,
+    indexFloor,
     indexSwiper,
-    IndexCate,
+    indexCate,
     NoticeBar,
     LoadMore,
   },
