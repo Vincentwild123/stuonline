@@ -24,7 +24,19 @@
       "style": {
         "navigatorBarTitleText": "登录"
       }
-    }
+	},
+	{
+	  "path": "src/pages/level2/team/teamDetail-nojoin"
+	},
+	{
+	  "path": "src/pages/level2/team/teamDetail-join"
+	},
+	{
+	  "path": "src/pages/level2/team/showTeamMembers"
+	},
+	{
+	  "path": "src/pages/level2/team/showActivity"
+	}
   ],
   "tabBar": {
     "color": "#7a7e83",

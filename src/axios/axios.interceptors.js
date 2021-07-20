@@ -8,7 +8,7 @@ httpInstance.interceptors.request.use(
   async (config) => {
     // config.Authorization = 'Cxm Token'
     config.token =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6IueIuOeIuCIsImV4cCI6MTYyMjg2MjI5OSwidXNlcklkIjoiNiJ9.8kzzlROFtadiGnjo97r94Mqy52OOV3tYPAjOVZav-r8";
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6IueIuOeIuCIsImV4cCI6MTYyNzI4MjM3MCwidXNlcklkIjoiMSJ9.dvPcQmPum8lO791Fd5VaIexjG25259hbw1OhN9TwhHo";
     console.log(
       "%c-------------------- %caxios %c---------------------",
       "color:white",
