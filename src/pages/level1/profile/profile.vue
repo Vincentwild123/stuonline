@@ -21,7 +21,7 @@
       <view class="mine_row_box">
         <image
           mode="widthFix"
-          src="/static/icons/profile/icon_my_medal.png"
+          src="https://pic.imgdb.cn/item/60fc2b955132923bf8312e8c.png"
           class="mine_row_icon"
         >
         </image>
@@ -30,7 +30,7 @@
       <view class="mine_row_box">
         <image
           mode="widthFix"
-          src="/static/icons/profile/icon_my_post.png"
+          src="https://pic.imgdb.cn/item/60fc2b7e5132923bf830b121.png"
           class="mine_row_icon"
         >
         </image>
@@ -92,19 +92,19 @@ export default {
       additions: [
         {
           name: "设置",
-          icon: "/static/icons/profile/icon_settings.png",
+          icon: "https://pic.imgdb.cn/item/60fc2b525132923bf82fc724.png",
         },
         {
           name: "帮助与反馈",
-          icon: "/static/icons/profile/icon_help.png",
+          icon: "https://pic.imgdb.cn/item/60fc2b305132923bf82f1278.png",
         },
         {
           name: "关于",
-          icon: "/static/icons/profile/icon_about.png",
+          icon: "https://pic.imgdb.cn/item/60fc2ae65132923bf82d8ddf.png",
         },
         {
           name: "退出登录",
-          icon: "/static/icons/profile/icon_exit.png",
+          icon: "https://pic.imgdb.cn/item/60fc2b305132923bf82f1291.png",
         },
       ],
     };

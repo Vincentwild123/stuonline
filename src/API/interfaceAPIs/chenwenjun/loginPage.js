@@ -7,45 +7,38 @@ import {
   getStorage,
   setStorage,
 } from "../../localAPIs/index.js";
+
 //检查用户是否为本校学生
-export async function isStudent(account) {
+export async function checkIfIsStudent(account) {
   try {
-    const data = await axios.get("/user/checkAuth/" + account);
-    if (checkStatusCode(data)) {
-      return true;
-    }
-    return false;
-  } catch (err) {
-    throw new Error("检测身份接口错误");
+    const res = await axios.get("/user/checkAuth/" + account);
+    return checkStatusCode(res) ? true : false;
+  } catch (e) {
+    throw new Error("接口/user/checkAuth/错误");
   }
 }
 //获取验证码
 export async function getVerCode(account) {
-  showLoading("验证码发送中...");
   try {
     const data = await axios.post("/user/sendLogonMail/" + account);
-    hideLoading();
     if (checkStatusCode(data)) {
       showToast("验证码已发送至你的校园邮箱，注意查收！");
       return;
     }
     throw new Error("验证码发送失败");
   } catch (e) {
-    hideLoading();
     showToast("请检查邮箱是否注册过");
     throw e;
   }
 }
 //注册
 export async function register({ account, password, vercode }) {
-  showLoading("正在吐血注册中...");
   try {
     const data = await axios.post("/user/register", {
       userAccount: account,
       userPwd: password,
       checkCode: vercode,
     });
-    hideLoading();
     const ret = {
       token: undefined,
     };
@@ -95,14 +88,13 @@ export async function loginWithToken() {
   }
   return false;
 }
+
 export async function loginWithAcctPass({ account, password }) {
   try {
-    showLoading("极速登录中...");
     const data = await axios.post("/user/login", {
       userAccount: account,
       userPwd: password,
     });
-    hideLoading();
     const ret = {
       message: "登陆成功",
       token: undefined,
@@ -114,8 +106,10 @@ export async function loginWithAcctPass({ account, password }) {
         break;
       case 400:
         ret.message = "登录信息残缺";
+        break;
       case 401:
         ret.message = "账号或密码错误";
+        break;
       default:
         throw new Error("异常状态码");
     }
