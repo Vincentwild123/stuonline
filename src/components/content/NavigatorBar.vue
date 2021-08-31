@@ -31,7 +31,7 @@ name:'NavigatorBar',
 	font-weight: bolder;
     display: flex;
     width: 100%;
-    height: 32px;
+	margin-bottom: 10rpx;
 }
 .right{
 	line-height: 32px;

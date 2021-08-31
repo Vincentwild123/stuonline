@@ -11,6 +11,9 @@ App.mpType = 'app'
 
 const app = new Vue({
 	store,
-	...App
+	...App,
+	beforeCreate() {
+		Vue.prototype.$bus = this;//安装全局事件总线
+	}
 })
 app.$mount()

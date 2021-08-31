@@ -2,34 +2,37 @@
   <!-- 楼层 开始 -->
   <view class="index_floor">
     <view class="floor_item">
-      <!--个人信息-->
+      <!-- 个人信息 -->
       <view class="floor_person">
         <view class="person_detial">
           <view class="admin_pic">
-            <img v-bind:src="list.userSimple.userHead" mode="widthFix"></img>
+            <img v-bind:src="list.complexUser.userHead" mode="widthFix"></img>
           </view>
           <view class="admin_detial">
-            <view class="admin_name">{{list.userSimple.userName}}</view>
+            <view class="admin_name">{{list.complexUser.userName}}</view>
             <view class="admin_time">{{getTime}}</view>
           </view>
         </view>
         <view class="grade">
-          <img v-for="(item,index) in list.userBadges" v-bind:src="item" mode="widthFix"></img>
+          <img v-for="(item,index) in list.complexUser.badgeUrls" v-bind:src="item" mode="widthFix"></img>
         </view>
-        <view class="accept">
-          <image src="../../../../UI/accept.png" mode=""></image>
+        <view class="accept"@click="handleMission">
+          <image src="../../../../UI/accept.png" mode="" v-if="list.executed"></image>
+          <image src="../../../../UI/unaccept.png" mode="" v-else></image>
         </view>
       </view>
-      <view class="floor_ques">{{list.postSimple.postText}}</view>
+      <view class="floor_ques">{{list.mission.missionText}}</view>
       <view class="floor_pic">
-        <img v-for="(item,index) in list.postImages" :src="item" alt="" mode="widthFix">
+        <img :src="list.mission.missionPicture1" alt="" mode="widthFix" @click="lookImg(0)">
+		<img :src="list.mission.missionPicture2" alt="" mode="widthFix" @click="lookImg(1)">
+		<img :src="list.mission.missionPicture3" alt="" mode="widthFix" @click="lookImg(2)">
       </view>
-      <view class="acceptPart">
+     <!-- <view class="acceptPart">
         <view class="acceptNum">
           <image src="../../../../UI/touxiang.png" mode="widthFix"></image>
         </view>
         <view class="acceptmesg">3人接收任务</view>
-      </view>
+      </view> -->
     </view>
   </view>
   <!-- 楼层 结束 -->
@@ -51,8 +54,9 @@ export default {
     },
   },
   computed: {
+	//格式化时间
     getTime() {
-      let postDate = this.list.postSimple.postDatetime;
+      let postDate = this.list.mission.createTime;
       let nowDate = new Date();
       let date = Date.parse(nowDate) - Date.parse(postDate);
       let diffdate = new Date(date);
@@ -69,6 +73,31 @@ export default {
       }
     },
   },
+  methods:{
+	  //查看图片
+	  lookImg(val) {
+	    let postImages=[];
+	    if(this.list.mission.missionPicture1){
+	  	  postImages.push(this.list.mission.missionPicture1);
+	    }
+	    if(this.list.mission.missionPicture2){
+	    		  postImages.push(this.list.mission.missionPicture2);
+	    }
+	    if(this.list.mission.missionPicture3){
+	    		  postImages.push(this.list.mission.missionPicture3);
+	    }
+	    const urls = postImages;
+	    const current = val;
+	    uni.previewImage({
+	      urls,
+	      current,
+	    });
+	  },
+	  //任务的接受与取消
+	  handleMission(){
+		  console.log("处理热巴舞")
+	  }
+  }
 };
 </script>
 <style scoped>

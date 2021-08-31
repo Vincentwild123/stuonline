@@ -9,7 +9,7 @@
  * 7、request正式返回，请求结束
  */
 import config from "./axios.config.js";
-const noonFunc = () => {};
+const noonFunc = () => { };
 
 export class Axios {
     constructor() {
@@ -72,7 +72,7 @@ export class Axios {
          * 调用拦截的时候，会调用传入的successFunc函数
          * @param config
          */
-    
+
         this.interceptors.request.success = (config) => {
             return successFunc(config);
         };
@@ -184,32 +184,61 @@ export class Axios {
     // 真正发送请求的函数
     sendRequest(config) {
         return new Promise((resolve, reject) => {
-            uni.request({
-                // 如果是源请求，则不再添加baseURL
-                url: (this._checkIsOriginRequest(config.url) ? "" : this.config.baseURL) +
-                    config.url,
-                method: config.method,
-                data: config.data,
-                dataType: config.dataType,
-                timeout: config.timeout,
-                // responseType: config.responseType,
-                header: {
-                    "Content-Type": config.ContentType,
-                    token: config.token,
-                },
-                success: (res) => {
-                    // 404状态码，则让它走fail回调
-                    if (res.statusCode === 404) {
-                        reject(res);
-                        return;
-                    }
-                    resolve(res);
-                },
-                fail: (err) => {
-                    reject(err);
-                },
-            });
 
+
+            //如果是multipart/form-data就走另一个接口
+            if (config.ContentType === "multipart/form-data") {
+                console.log("测试一下接口在这里获取的content=-type", config.data);
+                uni.uploadFile(
+                    {
+                        // 如果是源请求，则不再添加baseURL
+                        url: (this._checkIsOriginRequest(config.url) ? "" : this.config.baseURL) +
+                            config.url,
+                        files: config.data.files,
+                        formData:config.data.formData,
+                        header: {
+                            token: config.token,
+                        },
+                        success: (res) => {
+                            // 404状态码，则让它走fail回调
+                            if (res.statusCode === 404) {
+                                reject(res);
+                                return;
+                            }
+                            resolve(res);
+                        },
+                        fail: (err) => {
+                            reject(err);
+                        },
+                    }
+                )
+            } else {
+                uni.request({
+                    // 如果是源请求，则不再添加baseURL
+                    url: (this._checkIsOriginRequest(config.url) ? "" : this.config.baseURL) +
+                        config.url,
+                    method: config.method,
+                    data: config.data,
+                    dataType: config.dataType,
+                    timeout: config.timeout,
+                    // responseType: config.responseType,
+                    header: {
+                        "Content-Type": config.ContentType,
+                        token: config.token,
+                    },
+                    success: (res) => {
+                        // 404状态码，则让它走fail回调
+                        if (res.statusCode === 404) {
+                            reject(res);
+                            return;
+                        }
+                        resolve(res);
+                    },
+                    fail: (err) => {
+                        reject(err);
+                    },
+                });
+            }
         });
     }
 
@@ -255,26 +284,26 @@ export class Axios {
         });
     }
 
-        // delete请求
-        delete(
-            url,
-            data, {
-                timeout = this.config.timeout,
-                dataType = this.config.dataType,
-                responseType = this.config.responseType,
-                ContentType = this.config.ContentType,
-                token = this.config.token,
-            } = {}
-        ) {
-            return this.request(url, data, {
-                method: "DELETE",
-                timeout,
-                dataType,
-                responseType,
-                ContentType,
-                token,
-            });
-        }
+    // delete请求
+    delete(
+        url,
+        data, {
+            timeout = this.config.timeout,
+            dataType = this.config.dataType,
+            responseType = this.config.responseType,
+            ContentType = this.config.ContentType,
+            token = this.config.token,
+        } = {}
+    ) {
+        return this.request(url, data, {
+            method: "DELETE",
+            timeout,
+            dataType,
+            responseType,
+            ContentType,
+            token,
+        });
+    }
 
     // 检查是否是promise
     _checkIsPromise(obj) {

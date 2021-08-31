@@ -1,17 +1,14 @@
 import Axios from "./axios.js";
-
+import config from "./axios.config.js";
 // 初始化axios，并返回一个axios的实例
-const httpInstance = Axios.create({
-  timeout: 5000,
-  baseURL: "http://localhost:3000",
-});
+const httpInstance = Axios.create(config);
 
 // 请求前拦截，一般进行一些权限的校验，如加入token或其他请求头
 httpInstance.interceptors.request.use(
   async (config) => {
     // config.Authorization = 'Cxm Token'
     config.token =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6IueIuOeIuCIsImV4cCI6MTYyMjM1ODI5MSwidXNlcklkIjoiMSJ9.XD9sLWDuDv9wtv9VTGXOaFa16PB0UbqBmKjWU2TnisA";
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MzEwMDc3MjksInVzZXJJZCI6IjEifQ.le9i25bQEKZ8LAUV8PKLoOmWmmBdS_PzuqOgajFNwO4";
     console.log(
       "%c-------------------- %caxios %c---------------------",
       "color:white",
@@ -21,18 +18,19 @@ httpInstance.interceptors.request.use(
     console.log(
       "%c📧: %cREQUEST SEND %c(" + new Date().toLocaleTimeString() + ")",
       "color: #00CED1; font-weight:bold;font-size:15px",
-      "color: yellow",
+      "color: red",
       "color: white"
     );
     console.log(
       "👇 %cThe following is the configuration of this request",
-      "color:yellow"
+      "color:red"
     );
     console.dir(config);
     return config;
   },
   (error) => {
-    //console.log("请求错误:" + error);
+    console.log("请求错误:" + error);
+    return Promise.reject(error);
   }
 );
 

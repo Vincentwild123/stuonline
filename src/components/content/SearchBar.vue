@@ -1,7 +1,8 @@
 <!-- 搜索栏 -->
 <template>
 	<view class="searchBar">
-		<image src="../../UI/serchBar.png" mode="widthFix"></image>搜索
+		<image src="../../UI/serchBar.png" mode="widthFix"></image>
+		<slot name="text"></slot>
 	</view>
 </template>
 
