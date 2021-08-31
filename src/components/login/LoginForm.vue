@@ -45,7 +45,10 @@
     </view>
   </view>
 </template>
+<<<<<<< HEAD
 1
+=======
+>>>>>>> 54d8b36e5900ed760d9f3a854edb8704349e7415
 <script>
 export default {
   props: {

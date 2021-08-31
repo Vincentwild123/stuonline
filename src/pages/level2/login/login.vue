@@ -46,12 +46,17 @@ import LoginForm from "../../../components/login/LoginForm.vue";
 import RegisterForm from "../../../components/login/RegisterForm.vue";
 import { checkAccount, checkObjectNoEmpty } from "../../../utils/checkers.js";
 import {
-  isStudent,
+  checkIfIsStudent,
   register,
   getVerCode,
   loginWithAcctPass,
 } from "../../../API/interfaceAPIs/chenwenjun/loginPage.js";
-import { showToast, setStorage } from "../../../API/localAPIs/index.js";
+import {
+  showToast,
+  setStorage,
+  showLoading,
+  hideLoading,
+} from "../../../API/localAPIs/index.js";
 import opts from "./loginPageOpts.js";
 export default {
   data() {
@@ -92,13 +97,10 @@ export default {
       this.hadGetVerCode = true;
       let timer;
       if (this.countDown != opts.countDown) return;
-      //检查是否满足校园网账号格式
       if (checkAccount(account)) {
-        //检查是否为本校学生
-        isStudent(account)
-          .then((bool) => {
-            //是学生
-            if (bool) {
+        checkIfIsStudent(account)
+          .then((isStudent) => {
+            if (isStudent) {
               timer = setInterval(() => {
                 //倒计时为0，恢复功能
                 if (!this.countDown) {
@@ -108,16 +110,21 @@ export default {
                 this.registerFormProps.getCode_btn_desc = this.countDown--;
               }, 1000);
               //获取验证码到邮箱
-              getVerCode(account).catch((err) => {
-                if (timer) this.reSet(timer);
-                console.error(err);
-              });
+              showLoading("验证码发送中...");
+              getVerCode(account)
+                .catch((err) => {
+                  if (timer) this.reSet(timer);
+                  console.error(err);
+                })
+                .finally(() => {
+                  hideLoading();
+                });
               return;
             }
             showToast("检测到你不是本校学生");
           })
-          .catch((err) => {
-            console.error(err);
+          .catch((e) => {
+            console.error(e);
           });
       } else showToast("非法的校园网账号");
     },
@@ -132,9 +139,10 @@ export default {
         showToast("请先获取验证码");
         return;
       }
+      showLoading("正在吐血注册中...");
       register(payload)
         .then((ret) => {
-          if (ret && ret.token) {
+          if (ret.token) {
             showToast("注册成功!即将跳转");
             setStorage("userToken", ret.token);
             setTimeout(() => {
@@ -146,17 +154,19 @@ export default {
         })
         .catch((err) => {
           console.error(err);
-        });
+        })
+        .finally(() => hideLoading());
     },
     onLogin(payload) {
       //表单需要完整
       if (!checkObjectNoEmpty(payload)) {
-        showToast("请完整填写表单");
+        showToast("请必须填写完整账号密码");
         return;
       }
+      showLoading("极速登录中...");
       loginWithAcctPass(payload)
         .then((ret) => {
-          if (ret && ret.token) {
+          if (ret.token) {
             showToast("登录成功,即将跳转");
             setStorage("userToken", ret.token);
             setTimeout(() => {
@@ -168,7 +178,8 @@ export default {
           }
           showToast(ret.message);
         })
-        .catch((e) => console.error(e));
+        .catch((e) => console.error(e))
+        .finally(() => hideLoading());
     },
   },
 };
@@ -179,7 +190,6 @@ export default {
   box-sizing: border-box;
   font-family: "Helvetica";
 }
-
 .bg_image {
   overflow: hidden;
   height: 580rpx;
@@ -189,25 +199,20 @@ export default {
   background-size: cover;
   padding: 0 60rpx;
 }
-
 .hi {
   font-weight: bold;
 }
-
 .tips {
   margin-top: 120rpx;
 }
-
 .cur_tips {
   font-size: 34rpx;
   font-weight: 900;
   color: #ffaa00;
 }
-
 .switcher {
   overflow: hidden;
 }
-
 .switcher view {
   float: left;
   width: 140rpx;
@@ -217,7 +222,6 @@ export default {
   font-weight: bold;
   font-size: 0.9em;
 }
-
 .active_switcher::before {
   content: "";
   position: absolute;
@@ -228,11 +232,9 @@ export default {
   background-color: #ffaa00;
   border-radius: 5rpx;
 }
-
 .content_box {
   padding: 0 60rpx;
 }
-
 .content {
   margin-top: 40rpx;
 }

@@ -9,4 +9,6 @@ const config = {
   // type of the reponse data
   reponseType: "json",
 };
+
 export default config; 
+
