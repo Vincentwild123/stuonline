@@ -9,23 +9,6 @@ httpInstance.interceptors.request.use(
     // config.Authorization = 'Cxm Token'
     config.token =
       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MzEwMDc3MjksInVzZXJJZCI6IjEifQ.le9i25bQEKZ8LAUV8PKLoOmWmmBdS_PzuqOgajFNwO4";
-    console.log(
-      "%c-------------------- %caxios %c---------------------",
-      "color:white",
-      "color:#ADFF2F;font-size:15px;font-weight:800",
-      "color:white"
-    );
-    console.log(
-      "%c📧: %cREQUEST SEND %c(" + new Date().toLocaleTimeString() + ")",
-      "color: #00CED1; font-weight:bold;font-size:15px",
-      "color: red",
-      "color: white"
-    );
-    console.log(
-      "👇 %cThe following is the configuration of this request",
-      "color:red"
-    );
-    console.dir(config);
     return config;
   },
   (error) => {
@@ -37,23 +20,6 @@ httpInstance.interceptors.request.use(
 // 响应前拦截，一般进行响应数据的过来，判断是不是成功的响应
 httpInstance.interceptors.response.use(
   (response) => {
-    console.log(
-      "%c📩: %cRESPONSE RECEIVED %c(" + new Date().toLocaleTimeString() + ")",
-      "color: #00CED1; font-weight: bold;font-size:15px",
-      "color: yellow",
-      "color: white"
-    );
-    console.log(
-      "👇 %cThe following is the result returned this time",
-      "color:yellow"
-    );
-    console.dir(response); //     console.log(response);
-    console.log(
-      "%c-------------------- %caxios %c---------------------",
-      "color:white",
-      "color:#ADFF2F;font-size:15px;font-weight:800",
-      "color:white"
-    );
     return response;
   },
   (error) => {
