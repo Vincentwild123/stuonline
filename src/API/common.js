@@ -28,3 +28,9 @@ export function getStorage(key) {
     console.log(e);
   }
 }
+export function navigateTo(url, params) {
+  uni.navigateTo({
+    url,
+    ...params,
+  });
+}

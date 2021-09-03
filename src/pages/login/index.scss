@@ -1,0 +1,37 @@
+$ThemeColor: #e9910d;
+$InputBoxBorderRadius: 10rpx;
+* {
+  box-sizing: border-box;
+  font-family: "Helvetica";
+}
+
+.submit_btn {
+  height: 88rpx;
+  margin: 0 auto;
+  width: 60%;
+  border-radius: 44rpx;
+  background-color: $ThemeColor;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  line-height: 88rpx;
+  font-size: 30rpx;
+}
+
+.item_name {
+  font-weight: bold;
+}
+
+.input_box {
+  height: 66rpx;
+}
+
+.input_box input {
+  flex: 3;
+  border-radius: $InputBoxBorderRadius;
+  background-color: rgb(247, 252, 254);
+  height: 100%;
+  border: 2rpx solid $ThemeColor;
+  padding: 0rpx 10rpx;
+  font-size: 30rpx;
+}
