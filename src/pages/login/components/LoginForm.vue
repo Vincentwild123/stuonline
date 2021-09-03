@@ -109,34 +109,17 @@ export default {
 };
 </script>
 
-<style scoped>
-.LoginForm {
-  height: 100%;
-  width: 100%;
-}
-.password_box {
-  margin: 20rpx 0;
-}
+<style scoped lang="scss">
+@import "../index.scss";
+
 .login_form > view > view {
-  margin: 16rpx 0;
+  margin: 10rpx 0;
 }
-.item_name {
-  font-weight: bold;
-}
+
 .input_box {
   display: flex;
   justify-content: space-between;
-  height: 70rpx;
   align-items: center;
-}
-.input_box input {
-  flex: 3;
-  border-radius: 10rpx;
-  background-color: rgb(247, 252, 254);
-  height: 100%;
-  border: 2rpx solid #d18b00;
-  padding: 0rpx 10rpx;
-  font-size: 30rpx;
 }
 .suffix {
   flex: 1;
@@ -145,23 +128,10 @@ export default {
   width: 30%;
 }
 .email_suffix {
-  color: #d18b00;
+  color: $ThemeColor;
 }
 
 .submit_btn_box {
   margin-top: 140rpx;
-}
-
-.submit_btn {
-  height: 88rpx;
-  margin: 0 auto;
-  width: 60%;
-  border-radius: 44rpx;
-  background-color: #e79a00;
-  color: white;
-  font-weight: bold;
-  text-align: center;
-  line-height: 88rpx;
-  font-size: 30rpx;
 }
 </style>

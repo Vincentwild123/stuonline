@@ -133,94 +133,47 @@ export default {
     },
     emitRegisterEvent() {
       const payload = {
-        account:this.account,
-        password:this.password,
-        vercode:this.vercode
-      }
-      this.$emit('REGISTER',payload);
+        account: this.account,
+        password: this.password,
+        vercode: this.vercode,
+      };
+      this.$emit("REGISTER", payload);
     },
   },
 };
 </script>
 
-<style scoped>
-.RegisterForm {
-  height: 100%;
-  width: 100%;
-}
-
+<style scoped lang="scss">
+@import "../index.scss";
 /* 盒子子元素间间距 */
 .Register_form > view > view {
   margin: 10rpx 0;
 }
-
-.box {
-  margin: 20rpx 0;
-}
-
-/* 表单项名称 */
-.item_name {
-  font-weight: bold;
-}
-
-/* 输入框 */
-.input_box {
-  height: 66rpx;
-}
-
-.input_box input {
-  border-radius: 10rpx;
-  background-color: rgb(247, 252, 254);
-  height: 100%;
-  border: 2rpx solid #d18b00;
-  padding: 0rpx 10rpx;
-  font-size: 28rpx;
-}
-
 .account_box input {
-  width: 30%;
+  width: 34%;
 }
-
 .account_box .input_box {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 /* 邮箱后缀 */
-
 .email_suffix {
-  color: #d18b00;
+  color: $ThemeColor;
   margin-right: auto;
 }
-
 .suffix {
   font-size: 26rpx;
 }
-
 .getCode_btn_suffix {
-  border: 2rpx solid #e79a00;
+  border: 2rpx solid $ThemeColor;
   border-radius: 30rpx;
   padding: 8rpx 10rpx;
-  color: #e79a00;
-  width: 34%;
+  color: $ThemeColor;
+  width:37%;
   text-align: center;
 }
-
 .submit_btn_box {
   margin-top: 80rpx;
-}
-
-.submit_btn {
-  height: 88rpx;
-  margin: 0 auto;
-  width: 60%;
-  border-radius: 44rpx;
-  background-color: #e79a00;
-  color: white;
-  font-weight: bold;
-  text-align: center;
-  line-height: 88rpx;
-  font-size: 30rpx;
 }
 </style>

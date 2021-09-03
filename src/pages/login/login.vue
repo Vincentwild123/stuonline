@@ -182,11 +182,8 @@ export default {
 };
 </script>
 
-<style scoped>
-* {
-  box-sizing: border-box;
-  font-family: "Helvetica";
-}
+<style scoped lang="scss">
+@import "./index.scss";
 .bg_image {
   overflow: hidden;
   height: 580rpx;
@@ -205,7 +202,7 @@ export default {
 .cur_tips {
   font-size: 34rpx;
   font-weight: 900;
-  color: #ffaa00;
+  color: $ThemeColor;
 }
 .switcher {
   overflow: hidden;
@@ -227,7 +224,7 @@ export default {
   left: 0;
   height: 12rpx;
   width: 100%;
-  background-color: #ffaa00;
+  background-color: $ThemeColor;
   border-radius: 5rpx;
 }
 
