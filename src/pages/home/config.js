@@ -1,7 +1,9 @@
+import pageUrls from "../../API/pageUrls";
 export const Nav = [
   {
     name: "任务",
     icon: "https://pic.imgdb.cn/item/613185c044eaada739850dc7.png",
+    url: pageUrls.TASKHALL,
   },
   {
     name: "通知",
@@ -26,6 +28,7 @@ export const Nav = [
   {
     name: "帮助",
     icon: "https://pic.imgdb.cn/item/613185c044eaada739850dd4.png",
+    url: pageUrls.HELP,
   },
   {
     name: "更多",
@@ -33,7 +36,4 @@ export const Nav = [
   },
 ];
 
-
-export const Tips = {
-    
-}
+export const Tips = {};

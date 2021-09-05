@@ -1,15 +1,10 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import UserModel from "./UserModel";
 Vue.use(Vuex);
 const store = new Vuex.Store({
-  state: {
-    count: 0,
+  modules: {
+    user: UserModel,
   },
-  mutations: {
-    increment(state, payload) {
-      payload ? (state.count += payload) : state.count++;
-    },
-  },
-  actions: {},
 });
 export default store;

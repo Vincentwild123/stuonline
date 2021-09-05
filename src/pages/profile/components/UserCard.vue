@@ -111,12 +111,12 @@ export default {
 }
 
 .meta_user_name {
-  font-size: 1.26em;
+  font-size: 44rpx;
   font-weight: 900;
 }
 
 .meta_user_ID {
-  font-size: 0.9em;
+  font-size: 36rpxem;
   font-weight: bold;
 }
 
@@ -145,6 +145,7 @@ export default {
 .current_data {
   font-weight: bold;
   text-align: center;
+  font-size:40rpx;
 }
 
 .show_info_box {
@@ -154,7 +155,7 @@ export default {
 }
 
 .item_name {
-  font-size: 20rpx;
+  font-size: 30rpx;
   text-align: center;
   margin: 5rpx 0;
 }

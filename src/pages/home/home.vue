@@ -3,7 +3,11 @@
     <SearchBar></SearchBar>
     <view class="nav">
       <template v-for="item in Nav">
-        <view class="nav_item">
+        <view
+          @click="gotoPage(item.url)"
+          class="nav_item"
+          v-bind:key="item.icon"
+        >
           <image
             class="nav_item_icon"
             lazy-load="true"
@@ -28,13 +32,17 @@
         <span>即将上线，敬请期待</span>
       </view>
     </view>
-    <button @click="gotoLoginPage">去登陆页</button>
   </view>
 </template>
 
 <script>
 import { loginWithToken, getFormUploadToken } from "./service.js";
-import { showToast, setStorage, navigateTo } from "../../API/common.js";
+import {
+  showToast,
+  setStorage,
+  navigateTo,
+  getStorage,
+} from "../../API/common.js";
 import SearchBar from "../../components/SearchBar";
 import { Nav } from "./config.js";
 import pageUrls from "../../API/pageUrls.js";
@@ -53,17 +61,24 @@ export default {
       const fromToken = await getFormUploadToken();
       if (fromToken) {
         setStorage("formToken", fromToken);
-        return;
       }
+      return;
     }
     showToast("登录信息过期或不合法,请重新登陆");
     setTimeout(() => {
       navigateTo(pageUrls.LOGIN);
     }, 1500);
   },
+  onShow() {
+    const localUserData = getStorage("userData");
+    if (localUserData) {
+      const userData = JSON.parse(getStorage("userData"));
+      this.$store.commit("user/setUserData", { userData });
+    }
+  },
   methods: {
-    gotoLoginPage() {
-      navigateTo(pageUrls.LOGIN);
+    gotoPage(url) {
+      url && navigateTo(url);
     },
   },
 };
@@ -71,6 +86,9 @@ export default {
 
 <style>
 /* 导航列表 */
+.home_page {
+  border-top: 50rpx #000000 solid;
+}
 .nav {
   display: flex;
   flex-wrap: wrap;
@@ -78,7 +96,7 @@ export default {
   padding-top: 40rpx;
 }
 .nav_item {
-  height: 160rpx;
+  height: 200rpx;
   box-sizing: border-box;
   width: 25%;
   padding: 16rpx 46rpx;
@@ -89,7 +107,7 @@ export default {
 }
 /* 列表项图片 */
 .nav_item_icon {
-  max-width: 90%;
+  max-width: 100%;
 }
 /* 文字描述 */
 .nav_item_name {
@@ -117,9 +135,12 @@ export default {
   vertical-align: middle;
 }
 .willOnline {
-  height: 100rpx;
-  line-height: 100rpx;
-  background-color: gray;
+  margin-top: 20rpx;
+  height: 400rpx;
+  line-height: 400rpx;
+  background-color: #eee;
+  text-align: center;
+  color: gray;
 }
 .willOnline span {
   font-size: 50rpx;

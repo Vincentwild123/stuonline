@@ -41,7 +41,7 @@
     </view>
     <view class="additions_column">
       <template v-for="(item, index) in Additions">
-        <view class="addition_box" :key="index">
+        <view @click="gotoPage(item.url)" class="addition_box" :key="index">
           <image
             v-bind:src="item.icon"
             class="addition_box_icon"
@@ -63,7 +63,7 @@
 </template>
 <script>
 import UserCard from "./components/UserCard.vue";
-import { getStorage } from "../../API/common.js";
+import { getStorage, navigateTo } from "../../API/common.js";
 import { getUserInfo } from "./service.js";
 import { Additions } from "./config.js";
 export default {
@@ -81,23 +81,17 @@ export default {
       Additions,
     };
   },
-  async onLoad() {
-    //检查token
-    const userToken = getStorage("userToken");
-    if (userToken) {
-      //获取用户数据
-      const userInfo = await getUserInfo(userToken);
-      this.$data.userInfo = userInfo.data;
-    }
+  onLoad() {
+    //获取用户数据
+    this.$data.userInfo = this.$store.getters["user/getUserData"] || {};
   },
   components: {
     UserCard,
   },
   methods: {
-    toLoginPage() {
-      uni.navigateTo({
-        url: "../login/login",
-      });
+    gotoPage(url) {
+      console.log(url);
+      url && navigateTo(url);
     },
   },
 };
@@ -138,7 +132,7 @@ export default {
 /* 图标长宽比是1:1.22 */
 .mine_row_icon {
   max-width: 97.6%;
-  max-height: 80%;
+  max-height: 90%;
   margin-left: 20rpx;
 }
 .mine_row_box:nth-child(2)::before {
@@ -162,7 +156,7 @@ export default {
   background-color: #c2c2c8;
 }
 .mine_row_desc {
-  font-size: 0.5em;
+  font-size: 24rpx;
   font-weight: bold;
 }
 .additions_column {
@@ -172,14 +166,14 @@ export default {
 }
 .addition_box {
   display: flex;
-  height: 114rpx;
+  height: 140rpx;
   align-items: center;
   padding: 0 50rpx;
   justify-content: space-between;
 }
 .addition_box_icon {
-  max-width: 70rpx;
-  max-height: 70rpx;
+  max-width: 90rpx;
+  max-height: 90rpx;
 }
 .addition_box_arrow {
   max-width: 17.59rpx;
@@ -187,8 +181,8 @@ export default {
 }
 .addition_name {
   width: 40%;
-  margin-left: -40%;
-  font-size: 0.7em;
+  margin-left: -34%;
+  font-size: 28rpx;
   font-weight: bold;
 }
 </style>

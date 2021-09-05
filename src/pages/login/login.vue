@@ -50,6 +50,7 @@ import {
   register,
   getVerCode,
   loginWithAcctPass,
+  getUserInfo,
 } from "./service.js";
 import {
   showToast,
@@ -154,29 +155,33 @@ export default {
         })
         .finally(() => hideLoading());
     },
-    onLogin(payload) {
+    async onLogin(payload) {
       //表单需要完整
       if (!checkObjectNoEmpty(payload)) {
         showToast("请必须填写完整账号密码");
         return;
       }
       showLoading("极速登录中...");
-      loginWithAcctPass(payload)
-        .then((ret) => {
-          if (ret.token) {
-            showToast("登录成功,即将跳转");
-            setStorage("userToken", ret.token);
-            setTimeout(() => {
-              uni.switchTab({
-                url: "/src/pages/home/home",
-              });
-            }, 1500);
-            return;
-          }
-          showToast(ret.message);
-        })
-        .catch((e) => console.error(e))
-        .finally(() => hideLoading());
+      try {
+        const ret = await loginWithAcctPass(payload);
+        if (ret.token) {
+          showToast("登录成功,即将跳转");
+          setStorage("userToken", ret.token);
+          const res = await getUserInfo(ret.token);
+          const userData = res.data;
+          if (userData) setStorage("userData", JSON.stringify(userData));
+          setTimeout(() => {
+            uni.switchTab({
+              url: "/src/pages/home/home",
+            });
+          }, 1500);
+          return;
+        }
+        showToast(ret.message);
+      } catch (e) {
+        showToast(e);
+        console.error(e);
+      }
     },
   },
 };

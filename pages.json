@@ -16,6 +16,15 @@
       "path": "src/pages/team/team"
     },
     {
+      "path": "src/pages/about/about"
+    },
+      {
+      "path": "src/pages/help/help"
+    },
+    {
+      "path": "src/pages/setting/setting"
+    },
+    {
       "path": "src/pages/teahouse/subPage/taskHall",
       "style": {
         "navigatorBarTitleText": "任务大厅",
