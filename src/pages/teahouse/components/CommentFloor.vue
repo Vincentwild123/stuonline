@@ -37,7 +37,7 @@
       </view>
       <view
         class="comment_size"
-        @click="getCommentDetail"
+        @click.stop="getCommentDetail"
         v-show="isShowMoreComment"
       >
         查看更多回复>
@@ -68,6 +68,7 @@ export default {
     getPostSecondComment(postId, comSecond, comId, limit) {
       getPostSecondComment(postId, comSecond, comId, limit).then(
         (res) => {
+          // console.log(res);
           this.secondComment.push(...res.data);
         },
         (res) => {
@@ -90,25 +91,22 @@ export default {
     },
   },
   mounted() {
-    //初次加载获取一定的评论数
-    this.getPostSecondComment(this.postId, this.FirstComment.comId, 0, 5);
+    //初次加载获取一定的评论数--只展示这么多
+    this.getPostSecondComment(this.postId, this.FirstComment.comId, 0, 4);
     //监听是否要刷新二级评论
     this.$bus.$on("reflashSecondComment", (data) => {
-      if (this.FirstComment.comId === data.comSecond) {
-		//这里也是等登陆状态好了之后更改
-        this.secondComment.push({
-          comId: 5,
-          comTime: "2021-02-25T11:12:33",
+      if (this.FirstComment.comId === data.postId) {
+        //这里也是等登陆状态好了之后更改
+        this.secondComment.unshift({
+          comId: data.comId,
+          comTime: new Date(),
           comText: data.comText,
-          userSimple: {
-            userId: 2,
-            userName: "Joseph",
-            userHead:
-              "https://stu-online-1259811308.cos.ap-guangzhou.myqcloud.com/stu-online/2020/12/22/f65856b8-91f0-47f5-b082-dac194808eff.jpg",
-            userLevel: 0,
-          },
-          userBadges: [],
+          userSimple: this.$store.state.user.userData,
+          userBadges: this.$store.state.user.userData.badgeUrls,
         });
+        if (this.secondComment.length === 5) {
+          this.secondComment.pop();
+        }
       }
     });
   },

@@ -1,172 +1,193 @@
 <!-- 任务大厅  -->
 <template>
-  <scroll-view scroll-y="true" class="scrollY">
-    <view class="main">
-      <view class="taskHall">
-        <!--头部导航栏开始-->
-        <navigator-bar>
-          <view slot="right">
-            <navigator
-              url="../teahouse"
-              open-type="switchTab"
-              ><image
-                src="../../../UI/backButton.png"
-                mode="widthFix"
-                style="
-                  width: 10px;
-                  vertical-align: middle;
-                  display: inline-block;
-                "
-              ></image
-              ><text style="padding-left: 4px">茶馆</text></navigator
-            >
-          </view>
-          <view slot="center"> 任务大厅 </view>
-          <view slot="left">
-            <navigator url="../subPage/createAssignment"
-              ><image
-                src="../../../UI/postTask.png"
-                mode="widthFix"
-                style="
-                  width: 72rpx;
-                  vertical-align: middle;
-                  display: inline-block;
-                "
-              ></image
-            ></navigator>
-          </view>
-        </navigator-bar>
-        <!--头部导航栏结束-->
-
-        <!--搜索栏开始-->
-        <search-bar><text slot="text">搜索任务</text></search-bar>
-        <!--搜索栏结束-->
-        <!--选项栏结束-->
-        <!-- <cate @changeType="changeType"></cate> -->
-        <!--选项栏结束-->
-        <!-- 楼层数据开始-->
-        <task-floor v-for="(item, index) in mission" :list="item"></task-floor>
-        <view>
-          <load-more :loadStatus="loadStatus"></load-more>
-        </view>
-        <!--楼层数据结束-->
-        <!--通知栏开始-->
-        <!--通知栏结束-->
+  <view class="taskHall">
+    <!--头部导航栏开始-->
+    <navigator-bar>
+      <view slot="left">
+        <navigator url="../teahouse" open-type="switchTab"
+          ><image
+            src="../../../UI/backButton.png"
+            mode="widthFix"
+            style="width: 10px; vertical-align: middle; display: inline-block"
+          ></image
+          ><text style="padding-left: 4px">茶馆</text></navigator
+        >
       </view>
-    </view>
-  </scroll-view>
+      <view slot="center"> 任务大厅 </view>
+    </navigator-bar>
+    <!--头部导航栏结束-->
+    <mescroll-body
+      ref="mescrollRef"
+      @init="mescrollInit"
+      @down="downCallback"
+      @up="upCallback"
+      :up="upOption"
+      @emptyclick="emptyClick"
+    >
+      <!--搜索栏开始-->
+      <search-bar><text slot="text">搜索任务</text></search-bar>
+      <!--搜索栏结束-->
+      <!--发布导航栏开始-->
+      <view class="post_task" @click="createAssignment">
+        <view class="post_icon">
+          <image
+            src="../../../UI/postTask.png"
+            mode="heightFix"
+            style="height: 60rpx;vertical-align:middle;"
+          />
+        </view>
+        <view class="post_text">发布任务</view>
+        <view class="next_icon">
+          <image
+            src="../../../UI/rightBack.png"
+            mode="heightFix"
+            style="height: 28rpx;vertical-align:middle;"
+          ></image>
+        </view>
+      </view>
+      <!--发布导航栏结束-->
+      <!-- 楼层数据开始-->
+      <task-floor
+        v-for="(item, index) in mission"
+        :list="item"
+        @handleMission="handleMission"
+      ></task-floor>
+      <!--楼层数据结束-->
+      <!--通知栏开始-->
+      <!--通知栏结束-->
+    </mescroll-body>
+  </view>
 </template>
 
 <script>
 import SearchBar from "../components/content/SearchBar.vue";
 import NavigatorBar from "../components/content/NavigatorBar.vue";
-// import Cate from "../../../components/content/Cate.vue";
 import TaskFloor from "./childComp/taskFloor.vue";
-import LoadMore from "../components/content/LoadMore.vue";
-
-import {
-  getMissionList,
-  getLastMissionId,
-} from "../service.js";
+import MescrollMixin from "../components/content/mescroll-uni/mescroll-mixins";
+import MescrollBody from "../components/content/mescroll-uni/mescroll-body.vue"; // 非uni_modules版本
+import { getMissionList, getLastMissionId, acceptMission } from "../service.js";
 export default {
   name: "TaskHall",
+  mixins: [MescrollMixin], // 使用mixin
   data() {
     return {
-      mission: [],
-      pageSize: 5,//一次加载的数量
-      loadStatus: "more", //加载样式：more-加载前样式，loading-加载中样式，nomore-没有数据样式
-      isLoadMore: false, //是否加载中
-	  lastMissionId:20,//数据库中最后议一条任务的id
+      // 上拉加载的配置(可选, 绝大部分情况无需配置)
+      upOption: {
+        page: {
+          size: 10, // 每页数据的数量,默认10
+        },
+        noMoreSize: 5, // 配置列表的总数量要大于等于5条才显示'-- END --'的提示
+        empty: {
+          use: true,
+          tip: "暂无相关数据",
+          btnText: "抢沙发",
+        },
+      },
+      mission: [], //人物的列表
+      lastMissionId: 0, //数据库中最后议一条任务的id
     };
   },
   components: {
     SearchBar,
     NavigatorBar,
-    // Cate,
     TaskFloor,
-    LoadMore,
+    MescrollBody,
   },
   methods: {
-    getMissionList(lastMissionId, pageSize) {
-      return getMissionList(lastMissionId, pageSize)
+	  //创建任务
+	  createAssignment(){
+		  uni.navigateTo({
+		  	url:"createAssignment"
+		  })
+	  },
+    //取消任务或者接受任务
+    handleMission(MisData, executed) {
+      if (executed) {
+        //发送请求取消任务
+        return;
+      } else {
+        //接受任务
+        acceptMission(MisData).then(
+          (res) => {
+            for (const item of this.mission) {
+              if (item.mission.missionId === MisData) {
+                item.executed = true;
+                break;
+              }
+            }
+            uni.showToast({
+              title: "任务接受成功！",
+              duration: 2000,
+              icon: "none",
+            });
+          },
+          (err) => {
+            uni.showToast({
+              title: "任务接受失败！",
+              duration: 2000,
+              icon: "none",
+            });
+          }
+        );
+      }
+    },
+    /*下拉刷新的回调 */
+    downCallback() {
+      //查询最后的任务的ID
+      getLastMissionId()
         .then((res) => {
-          let { data } = res.data;
-          this.isLoadMore = true;
-          this.loadStatus = "loading";
-          this.mission.push(...data);
-		  console.log(data[data.length-1].mission.missionId)
-		  this.lastMissionId = data[data.length-1].mission.missionId;
-          this.isLoadMore = false;
-          this.loadStatus = "more";
-          return Promise.resolve(1);
+          this.lastMissionId = res.data.data+1;
+          //手动制空数据
+          this.mission = [];
+          // 下拉刷新的回调,默认重置上拉加载列表为第一页 (自动执行 page.num=1, 再触发upCallback方法 )
+          this.mescroll.resetUpScroll();
         })
         .catch((err) => {
-          this.isLoadMore = false;
-          this.loadStatus = "nomore";
-          console.log(err, "teahouse");
-           return Promise.reject(1);
+          //  联网失败, 结束加载
+          this.mescroll.endErr();
         });
     },
-  },
-  mounted() {
-    //查询最后的任务的ID
-    getLastMissionId().then(res=>{
-		this.lastMissionId = res.data.data;
-		return Promise.resolve(1);
-    }).then(res=>{
-		//页面一但挂在就要初始话加载一定的数据量
-		this.getMissionList(this.lastMissionId, this.pageSize);
-	}).catch(err=>{
-		console.log("服务器崩了")
-	})
-  },
-  onReachBottom() {
-    //上拉触底函数
-    if (!this.isLoadMore) {
-      //此处判断，上锁，防止重复请求
-      this.isLoadMore = true;
-      this.getMissionList(this.lastMissionId, this.pageSize).catch(err=>{
-		  uni.showToast({
-		  	title:"试试下拉刷新数据吧"
-		  })
-	  });
-      // this.getFloor(this.postId, this.pageSize);
-    }
-    this.isLoadMore = false;
-  },
-  // 下拉刷新
-  onPullDownRefresh() {
-    console.log("下拉刷新");
-	this.mission=[];
-	getLastMissionId().then(res=>{
-		this.lastMissionId = res.data.data;
-		return Promise.resolve(1);
-	}).then(success=>{
-		this.getMissionList(this.lastMissionId, this.pageSize).then(
-		  (res) => {
-		    uni.stopPullDownRefresh(); //停止当前页面下拉刷新
-		    uni.showToast({ title: "刷新成功", icon: "none" });
-		  },
-		  (err) => {
-		    uni.stopPullDownRefresh(); //停止当前页面下拉刷新
-		    uni.showToast({ title: "出了点小状况", icon: "none" });
-		  }
-		);
-	})
+    /*上拉加载的回调: 其中page.num:当前页 从1开始, page.size:每页数据条数,默认10 */
+    upCallback(page) {
+      //联网加载数据
+      getMissionList(this.lastMissionId, page.size)
+        .then((res) => {
+          let curPageData = res.data.data;
+          //必传参数(当前页的数据个数)
+          this.mescroll.endSuccess(curPageData.length);
+          this.lastMissionId =
+            curPageData[curPageData.length - 1].mission.missionId;
+          //设置列表数据
+          this.mission.push(...curPageData);
+        })
+        .catch((err) => {
+          //  联网失败, 结束加载
+          this.mescroll.endErr();
+        });
+    },
   },
 };
 </script>
 <style scoped>
-.main {
+.taskHall {
   padding: 0 10px;
-}
-.scrollY {
   margin-top: 6vh;
-  height: 100%;
 }
-::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  background-color: transparent;
+/* 发布任务条开始 */
+.post_task {
+  display: flex;
+  align-items: center;
+  height: 100rpx;
+  justify-content: space-between;
 }
+.post_icon{
+}
+.post_text {
+  font-size: 24rpx;
+  font-weight: 600;
+  margin-left: -470rpx;
+}
+.next_icon {
+}
+/* 发布任务条结束 */
 </style>

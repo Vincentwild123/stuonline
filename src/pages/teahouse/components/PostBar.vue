@@ -1,4 +1,4 @@
-<!-- 发布导航栏 -->
+<!-- 评论发布导航栏 -->
 <template>
   <view class="post_bar">
     <view class="post_input">
@@ -7,8 +7,8 @@
         class="post_input_text"
         ref="inputContent"
         v-model="content"
-        :placeholder="placeholder"
-        :focus="isFocus"
+        :placeholder="this.$store.state.postBar.placeholder"
+        :focus="this.$store.state.postBar.isFocus"
       />
     </view>
     <view class="post_button" @click="submitReply"> 发布 </view>
@@ -24,7 +24,7 @@ export default {
       content: "",
       placeholder: "输入你的评论...", //输入提示框
       isFocus: false, //是否聚焦
-      isFirstCommment: true, //默认是一级评论的回复
+      // isFirstCommment: true, //默认是一级评论的回复
       postMes: {}, //一级评论所需要的信息
       commentMes: {}, //二级评论所需要的信息
     };
@@ -32,7 +32,8 @@ export default {
   methods: {
     //点击发布按钮//创建一级评论或者二级评论
     submitReply() {
-      if (this.isFirstCommment) {
+      if (this.$store.state.postBar.isFirstCommment) {
+        this.postMes = this.$store.state.postBar.postMes;
         let data = {
           comText: this.content,
           comSourceId: this.postMes.userSimple.userId,
@@ -45,13 +46,20 @@ export default {
               title: "回复成功",
               icon: "none",
             });
-            this.$bus.$emit("reflashFirstComment", this.content);
+            // console.log(res)
+            let payload={
+              comText:this.content,
+              comId:res.data.information
+            }
+            // console.log(payload)
+            this.$bus.$emit("reflashFirstComment", payload);
           },
           (err) => {
             console.log("回复失败");
           }
         );
       } else {
+        this.commentMes = this.$store.state.postBar.comMes;
         let data = {
           comText: this.content,
           comSourceId: this.commentMes.commentMes.userSimple.userId,
@@ -65,7 +73,12 @@ export default {
               title: "回复成功",
               icon: "none",
             });
-            this.$bus.$emit("reflashSecondComment", data);
+            let payload={
+              comId:res.data.information,
+              comText:data.comText,
+              postId:this.commentMes.commentMes.comId
+            }
+            this.$bus.$emit("reflashSecondComment", payload);
           },
           (err) => {
             console.log("回复失败");
@@ -76,22 +89,22 @@ export default {
   },
   mounted() {
     //监听是否发布一级评论
-    this.$bus.$on("replyPost", (data) => {
-      this.isFirstCommment = true; //设置为一级评论
-      this.isFocus = true;
-      this.postMes = data;
-    });
+    // this.$bus.$on("replyPost", (data) => {
+    //   this.isFirstCommment = true; //设置为一级评论
+    //   this.isFocus = true;
+    //   this.postMes = data;
+    // });
     //监听是否发布二级评论
-    this.$bus.$on("replyComment", (data) => {
-      this.isFirstCommment = false; //设置为二级评论
-      this.isFocus = true;
-      this.commentMes = data;
-      this.placeholder=`请输入回复${data.commentMes.userSimple.userName}的评论`
-    });
+    // this.$bus.$on("replyComment", (data) => {
+    //   this.isFirstCommment = false; //设置为二级评论
+    //   this.isFocus = true;
+    //   this.commentMes = data;
+    //   this.placeholder = `请输入回复${data.commentMes.userSimple.userName}的评论`;
+    // });
   },
   beforeDestroy() {
-    this.$bus.$off("replyPost");
-    this.$bus.$off("replyComment");
+    // this.$bus.$off("replyPost");
+    // this.$bus.$off("replyComment");
   },
 };
 </script>

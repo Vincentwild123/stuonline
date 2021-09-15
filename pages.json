@@ -7,10 +7,7 @@
       "path": "src/pages/profile/profile"
     },
     {
-      "path": "src/pages/teahouse/teahouse",
-      "style": {
-        "enablePullDownRefresh": true
-      }
+      "path": "src/pages/teahouse/teahouse"
     },
     {
       "path": "src/pages/team/team"
@@ -25,12 +22,11 @@
       "path": "src/pages/setting/setting"
     },
     {
-      "path": "src/pages/teahouse/subPage/taskHall",
-      "style": {
-        "navigatorBarTitleText": "任务大厅",
-        "enablePullDownRefresh": true
-      }
+      "path": "src/pages/teahouse/subPage/taskHall"
     },
+	{
+	  "path": "src/pages/teahouse/subPage/defineLabel"
+	},
     {
       "path": "src/pages/teahouse/subPage/createPost",
       "style": {
@@ -44,18 +40,10 @@
       }
     },
     {
-      "path": "src/pages/teahouse/subPage/postDetail",
-      "style": {
-        "navigatorBarTitleText": "帖子详情",
-        "enablePullDownRefresh": true
-      }
+      "path": "src/pages/teahouse/subPage/postDetail"
     },
     {
-      "path": "src/pages/teahouse/subPage/commentDetail",
-      "style": {
-        "navigatorBarTitleText": "评论详情",
-        "enablePullDownRefresh": true
-      }
+      "path": "src/pages/teahouse/subPage/commentDetail"
     },
     {
       "path": "src/pages/login/login",

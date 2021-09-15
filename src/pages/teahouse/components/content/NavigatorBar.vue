@@ -2,13 +2,13 @@
 <template>
   <view class="navigatorBar">
  	<view class="left">
-  		<slot name="right"></slot>
+  		<slot name="left"></slot>
   	</view>
 	<view class="center">
 		<slot name="center"></slot>
 	</view>
 	<view class="right">
-		<slot name="left"></slot>
+		<slot name="right"></slot>
 	</view>
   </view>
 </template>
@@ -32,6 +32,7 @@ name:'NavigatorBar',
     display: flex;
     width: 100%;
 	margin-bottom: 10rpx;
+	border-bottom: 1px solid #f7f9fb;
 }
 .right{
 	line-height: 32px;
@@ -46,5 +47,6 @@ name:'NavigatorBar',
 .left{
 	line-height: 32px;
     flex: 1;
+	text-align: left;
 }
 </style>

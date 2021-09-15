@@ -65,3 +65,7 @@ export function getMissionList(lastMissionId, pageSize) {
 export function getLastMissionId() {
   return axios.get(api.mission.getLastMissionId);
 }
+//接受任务
+export function acceptMission(missionId){
+  return axios.post(api.mission.acceptMission+"/"+missionId);
+}
