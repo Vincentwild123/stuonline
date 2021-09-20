@@ -38,14 +38,14 @@ export function getPostComment(postId, comId, limit) {
 export function getPostSecondComment(postId, comSecond, comId, limit) {
   return axios.get(
     api.card.commonCardSecond +
-      "/" +
-      postId +
-      "/" +
-      comSecond +
-      "/" +
-      comId +
-      "/" +
-      limit
+    "/" +
+    postId +
+    "/" +
+    comSecond +
+    "/" +
+    comId +
+    "/" +
+    limit
   );
 }
 //创建一级评论--创建二级评论
@@ -66,6 +66,22 @@ export function getLastMissionId() {
   return axios.get(api.mission.getLastMissionId);
 }
 //接受任务
-export function acceptMission(missionId){
-  return axios.post(api.mission.acceptMission+"/"+missionId);
+export function acceptMission(missionId) {
+  return axios.post(api.mission.acceptMission + "/" + missionId);
+}
+//获取热门标签
+export function getTopTags(num) {
+  return axios.get(api.card.hotTag + "/" + num);
+}
+//根据标签获取帖子
+export function getPostByTag(tag,postId,limit){
+  return axios.get(api.card.getTagPostList+"/"+tag+"/"+postId+"/"+limit);
+}
+//根据任务ID获取任务
+export function getMissionByMisID(id){
+  return axios.get(api.mission.getMissionByMisId+"/"+id);
+}
+//根据发布者Id获取任务
+export function getMissionByUserId(id){
+  return  axios.get(api.mission.getMissionByUserId+"/"+id);
 }

@@ -1,7 +1,16 @@
 <template>
   <scroll-view scroll-y="true" class="scrollY">
     <view class="main">
-      <search-bar><text slot="text">搜索任务</text></search-bar>
+      <search-bar @toSearch="toSearch">
+        <view slot="text" style="display: inline">
+          <image
+            src="../../UI/serchBar.png"
+            mode="heightFix"
+            style="height: 25rpx; vertical-align: -8%; margin-right: 10rpx"
+          ></image
+          >搜索帖子
+        </view>
+      </search-bar>
       <!--滚动条开始-->
       <view class="indexNotice">
         <notice-bar></notice-bar>
@@ -13,7 +22,13 @@
       </view>
       <!-- 轮播图 结束 -->
       <!-- 导航 开始 -->
-      <index-cate :titles="tabs" v-model="tabIndex" @changeType="changeType" class="index_cate"></index-cate>
+      <index-cate
+        :titles="tabs"
+        v-model="tabIndex"
+        @changeType="changeType"
+        @createPost="createPost"
+        class="index_cate"
+      ></index-cate>
       <!-- 导航 结束 -->
       <!--楼层开始-->
       <swiper
@@ -36,11 +51,22 @@
     <uni-popup ref="popup">
       <post-bar />
     </uni-popup>
+    <uni-popup ref="showToast">
+      <MyShowToast
+        title="登陆状态"
+        content="尚未登陆无法执行此操作~马上去登陆？"
+        cancel="取消"
+        confirm="确定"
+        @userCancel="userCancel"
+        @userComfire="userComfire"
+      />
+    </uni-popup>
     <!-- 点击评论后输入框弹出结束 -->
   </scroll-view>
 </template>
 
 <script>
+import MyShowToast from "../../components/MyShowToast.vue";
 import PostBar from "./components/PostBar.vue";
 import indexSwiper from "./components/IndexSwiper.vue";
 import IndexCate from "./components/IndexCate.vue";
@@ -74,11 +100,39 @@ export default {
     PostBar,
     MescrollItem,
     MescrollUni,
+    MyShowToast,
   },
   methods: {
+    //点击取消具体操作
+    userCancel() {
+      this.$refs.showToast.close();
+    },
+    //点击确定具体操作
+    userComfire() {
+      uni.navigateTo({
+        url: "../login/login",
+      });
+      this.$refs.showToast.close();
+    },
+    // 点击发布帖子
+    createPost() {
+      if (this.$store.getters["user/isLogin"]) {
+        uni.navigateTo({
+          url: "subPage/createPost",
+        });
+      } else {
+        this.$refs.showToast.open("center");
+      }
+    },
+    //搜索进行跳转
+    toSearch() {
+      uni.navigateTo({
+        url: "./subPage/searchPost",
+      });
+    },
     // 轮播菜单
     swiperChange(e) {
-      this.tabIndex=e.detail.current;
+      this.tabIndex = e.detail.current;
     },
     //点击弹出输入框
     createComment(data) {
@@ -98,6 +152,14 @@ export default {
     // 需要固定swiper的高度
     this.height = uni.getSystemInfoSync().windowHeight + "px";
   },
+  onShow() {
+    this.$bus.$on("showLoginState",()=>{
+      this.$refs.showToast.open("center");
+    });
+  },
+  onHide() {
+    this.$bus.$off("showLoginState");
+  },
 };
 </script>
 
@@ -115,10 +177,10 @@ export default {
   height: 0;
   background-color: transparent;
 }
-.index_cate{
-  position:sticky;
+.index_cate {
+  position: sticky;
   top: 0;
-  z-index: 999;
+  z-index: 9;
   background-color: #fff;
 }
 </style>

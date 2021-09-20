@@ -10,6 +10,13 @@ export default {
   },
   getters: {
     getUserData: (state) => state.userData,
+    isLogin:(state)=>{
+      if(JSON.stringify(state.userData)=="{}"){
+        return false;
+      }else{
+        return true;
+      }
+    }
   },
   actions: {},
 };

@@ -71,7 +71,13 @@
     },
     {
       "path": "src/pages/team/subPages/showActivity"
-    }
+    },
+    {
+      "path": "src/pages/teahouse/subPage/searchTask"
+    },
+	{
+	  "path": "src/pages/teahouse/subPage/searchPost"
+	}
   ],
   "tabBar": {
     "color": "#7a7e83",

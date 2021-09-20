@@ -32,6 +32,8 @@ var api = {
     getMissonList: _api2_root + "mission/hall",
     getLastMissionId: _api2_root + "mission/id",
     acceptMission: _api2_root + "mission/take",
+    getMissionByMisId:_api2_root + "mission/id",
+    getMissionByUserId:_api2_root+"mission/pusher"
   }
 };
 export default api;

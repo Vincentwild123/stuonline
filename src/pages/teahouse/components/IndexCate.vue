@@ -13,9 +13,9 @@
         >{{ item.name }}</view
       >
     </view>
-    <navigator url="./subPage/createPost" class="right">
-      <image src="../../../UI/fatie.png" mode="widthFix"></image>
-    </navigator>
+    <view class="right">
+      <image @click="createPost" src="../../../UI/fatie.png" mode="widthFix"></image>
+    </view>
   </view>
 </template>
 
@@ -33,6 +33,9 @@ export default {
       this.currentIndex = index;
       this.$emit("changeType", index);
     },
+    createPost(){
+      this.$emit("createPost");
+    }
   },
   props: {
     value: {
@@ -54,7 +57,7 @@ export default {
   padding: 5px 0 5px 0;
   align-items: center;
   border-bottom: 2px solid #fff0d9;
-  border-top: 2px solid #fff0d9 ;
+  border-top: 2px solid #fff0d9;
 }
 .left {
   flex: 2;

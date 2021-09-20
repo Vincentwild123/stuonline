@@ -3,7 +3,7 @@
   <view class="comment_detail">
     <!--头部导航栏开始-->
     <navigator-bar>
-      <view slot="right">
+      <view slot="left">
         <view @click="back"
           ><image
             src="../../../UI/backButton.png"

@@ -6,10 +6,12 @@
       <view class="floor_person">
         <view class="person_detial">
           <view class="admin_pic">
-            <img v-bind:src="list.userSimple.userHead" mode="widthFix"></img>
+            <img v-bind:src="list.userSimple.userHead" mode="widthFix" v-if="list.postSimple.postHidename===0"></img>
+            <img src="../../../UI/postMoji.png" mode="widthFix" v-else></img>
           </view>
           <view class="admin_detial">
-            <view class="admin_name">{{list.userSimple.userName}}</view>
+            <view class="admin_name" v-if="list.postSimple.postHidename===0">{{list.userSimple.userName}}</view>
+            <view class="admin_name"v-else>匿名发布</view>
             <view class="admin_time">{{getTime}}</view>
           </view>
         </view>
@@ -72,10 +74,18 @@ export default {
   methods: {
     //发布一级评论
     createComment() {
+      if (!this.$store.getters["user/isLogin"]) {
+        this.$bus.$emit("showLoginState");
+        return;
+      }
       this.$emit("createComment");
     },
     //点赞或取消点赞
     likeIt(postId) {
+      if (!this.$store.getters["user/isLogin"]) {
+        this.$bus.$emit("showLoginState");
+        return;
+      }
       if (this.list.like) {
         this.$emit("unlikeIt", postId);
       } else {
@@ -162,7 +172,7 @@ export default {
   font-size: 8px;
   border: #b5caff 1px solid;
   height: 21px;
-  width: 49px;
+  padding: 0 10rpx;
   border-radius: 21px;
 }
 .floor_pic {

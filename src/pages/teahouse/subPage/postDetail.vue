@@ -4,13 +4,13 @@
     <!--头部导航栏开始-->
     <navigator-bar class="navi_bar">
       <view slot="left">
-        <navigator url="/src/pages/teahouse/teahouse" open-type="switchTab"
+        <view @click="goBack"
           ><image
             src="../../../UI/backButton.png"
             mode="widthFix"
             style="width: 10px; vertical-align: middle; display: inline-block"
           ></image
-          ><text style="padding-left: 4px">茶馆</text></navigator
+          ><text style="padding-left: 4px">茶馆</text></view
         >
       </view>
       <view slot="center"> 帖子详情 </view>
@@ -47,11 +47,22 @@
     <uni-popup ref="popup">
       <post-bar />
     </uni-popup>
+    <uni-popup ref="showToast">
+      <MyShowToast
+        title="登陆状态"
+        content="尚未登陆无法执行此操作~马上去登陆？"
+        cancel="取消"
+        confirm="确定"
+        @userCancel="userCancel"
+        @userComfire="userComfire"
+      />
+    </uni-popup>
     <!-- 点击评论后输入框弹出结束 -->
   </view>
 </template>
 
 <script>
+import MyShowToast from "../../../components/MyShowToast.vue";
 import NavigatorBar from "../components/content/NavigatorBar.vue";
 import IndexFloor from "../components/IndexFloor.vue";
 import CommentFloor from "../components/CommentFloor.vue";
@@ -90,8 +101,26 @@ export default {
     CommentFloor,
     PostBar,
     MescrollBody,
+    MyShowToast,
   },
   methods: {
+    //点击取消具体操作
+    userCancel() {
+      this.$refs.showToast.close();
+    },
+    //点击确定具体操作
+    userComfire() {
+      uni.navigateTo({
+        url: "../../login/login",
+      });
+      this.$refs.showToast.close();
+    },
+    //返回上一级
+    goBack() {
+      uni.navigateBack({
+        delta: 1,
+      });
+    },
     //点击弹出输入框
     createComment() {
       // 通过组件定义的ref调用uni-popup方法 ,如果传入参数 ，type 属性将失效 ，仅支持 ['top','left','bottom','right','center']
@@ -129,6 +158,10 @@ export default {
     },
     //回复评论参数一级评论
     replyComment(data) {
+      if (!this.$store.getters["user/isLogin"]) {
+        this.$bus.$emit("showLoginState");
+        return;
+      }
       // 通过组件定义的ref调用uni-popup方法 ,如果传入参数 ，type 属性将失效 ，仅支持 ['top','left','bottom','right','center']
       this.$refs.popup.open("bottom");
       let param = {
@@ -177,11 +210,7 @@ export default {
     },
     //点击空布局按钮的回调
     emptyClick() {
-      console.log("点你妈？");
-      uni.showToast({
-        title: "点尼玛？",
-        icon: "none",
-      });
+      this.createComment();
     },
   },
   //获取参数
@@ -212,6 +241,14 @@ export default {
   beforeDestroy() {
     this.$bus.$off("reflashFirstComment");
     this.$bus.$off("reflashSecondComment");
+  },
+  onShow() {
+    this.$bus.$on("showLoginState", () => {
+      this.$refs.showToast.open("center");
+    });
+  },
+  onHide() {
+    this.$bus.$off("showLoginState");
   },
 };
 </script>
