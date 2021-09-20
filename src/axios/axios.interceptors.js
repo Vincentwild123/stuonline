@@ -1,14 +1,14 @@
 import Axios from "./axios.js";
 import config from "./axios.config.js";
+import { getStorage } from '../API/common'
 // 初始化axios，并返回一个axios的实例
 const httpInstance = Axios.create(config);
 
 // 请求前拦截，一般进行一些权限的校验，如加入token或其他请求头
 httpInstance.interceptors.request.use(
   async (config) => {
-    // config.Authorization = 'Cxm Token'
-    config.token =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MzI1Nzk5NDQsInVzZXJJZCI6IjEifQ.CCAtTe7Xd2t9DErTRr5RbXuU1QvZvghJowGApa9lAQw";
+    const token = getStorage('userToken');
+    config.token = token;
     return config;
   },
   (error) => {

@@ -15,18 +15,21 @@
     {
       "path": "src/pages/about/about"
     },
-      {
+    {
       "path": "src/pages/help/help"
     },
     {
       "path": "src/pages/setting/setting"
     },
     {
+      "path": "src/pages/notice/notice"
+    },
+    {
       "path": "src/pages/teahouse/subPage/taskHall"
     },
-	{
-	  "path": "src/pages/teahouse/subPage/defineLabel"
-	},
+    {
+      "path": "src/pages/teahouse/subPage/defineLabel"
+    },
     {
       "path": "src/pages/teahouse/subPage/createPost",
       "style": {

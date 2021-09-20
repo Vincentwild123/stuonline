@@ -102,7 +102,7 @@ export default {
       if (checkAccount(account)) {
         try {
           const isStudent = await checkIfIsStudent(account);
-          if (isStudent) {
+          if (isStudent.data.status == 200) {
             // 开启倒计时冷却
             timer = setInterval(() => {
               //倒计时为0，恢复功能
@@ -115,10 +115,11 @@ export default {
             //获取验证码到邮箱
             showLoading("验证码发送中...");
             await getVerCode(account);
-          } else showToast("检测到你不是本校学生");
-        } catch (err) {
-          showToast(err.message);
+          }
+        } catch (e) {
+          showToast(e.message);
           this.reSet(timer);
+          console.log(this.$data);
         } finally {
           hideLoading();
         }
@@ -126,7 +127,7 @@ export default {
     },
 
     //注册
-    onRegister(payload) {
+    async onRegister(payload) {
       //表单需要完整
       if (!checkObjectNoEmpty(payload)) {
         showToast("请完整填写表单");
@@ -138,22 +139,17 @@ export default {
         return;
       }
       showLoading("正在吐血注册中...");
-      register(payload)
-        .then((ret) => {
-          if (ret.token) {
-            showToast("注册成功!即将跳转");
-            setStorage("userToken", ret.token);
-            setTimeout(() => {
-              this.isLogin = true;
-            }, 1500);
-            return;
-          }
-          showToast(ret.message);
-        })
-        .catch((err) => {
-          console.error(err);
-        })
-        .finally(() => hideLoading());
+      const res = await register(payload);
+      hideLoading();
+      if (res.token) {
+        showToast("注册成功!即将跳转");
+        setStorage("userToken", res.token);
+        setTimeout(() => {
+          this.isLogin = true;
+        }, 1500);
+        return;
+      }
+      showToast(res.message);
     },
     async onLogin(payload) {
       //表单需要完整
@@ -167,6 +163,7 @@ export default {
         if (ret.token) {
           showToast("登录成功,即将跳转");
           setStorage("userToken", ret.token);
+          //登录的时候获取一次个人信息
           const res = await getUserInfo(ret.token);
           const userData = res.data;
           if (userData) setStorage("userData", JSON.stringify(userData));
