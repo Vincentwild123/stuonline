@@ -60,15 +60,18 @@ export default {
   props: {
     userHead: {
       type: String,
-      required: true,
+      required: false,
+      default:"https://img2.baidu.com/it/u=1662859086,3825119284&fm=26&fmt=auto"
     },
     userName: {
       type: String,
       required: true,
+      default:"未知"
     },
     userId: {
       type: String,
       required: true,
+      default:"-1",
     },
     badgeUrls: {
       type: Array,
@@ -77,14 +80,17 @@ export default {
     commentCount: {
       type: Number,
       required: true,
+      default:0
     },
     userLikepost: {
       type: Number,
       required: true,
+      default:0
     },
     userPostcount: {
       type: Number,
       required: true,
+      default:0
     },
   },
 };

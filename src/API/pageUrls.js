@@ -8,4 +8,5 @@ export default {
   HELP: "/src/pages/help/help",
   SETTING:"/src/pages/setting/setting",
   TASKHALL: "/src/pages/teahouse/subPage/taskHall",
+  NOTICE:"/src/pages/notice/notice"
 };

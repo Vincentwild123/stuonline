@@ -6,7 +6,7 @@ export function checkStatusCode(data) {
 }
 export function checkObjectNoEmpty(o) {
   for (let key in o) {
-    if (o[key] == "") return false;
+    if (o[key] == "" || !o[key]) return false;
   }
   return true;
 }

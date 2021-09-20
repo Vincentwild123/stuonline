@@ -11,7 +11,7 @@
       :userPostcount="userInfo.userPostcount"
     ></UserCard>
     <view class="mine_row">
-      <view class="mine_row_box">
+      <view class="mine_row_box" @click='gotoNotice'>
         <image
           mode="widthFix"
           src="/static/icons/profile/icon_my_notification.png"
@@ -63,9 +63,10 @@
 </template>
 <script>
 import UserCard from "./components/UserCard.vue";
-import { getStorage, navigateTo } from "../../API/common.js";
+import { getStorage, navigateTo, setStorage } from "../../API/common.js";
 import { getUserInfo } from "./service.js";
 import { Additions } from "./config.js";
+import  pageUrls  from '../../API/pageUrls.js';
 export default {
   data() {
     return {
@@ -81,14 +82,24 @@ export default {
       Additions,
     };
   },
-  onLoad() {
+  async onShow() {
     //获取用户数据
-    this.$data.userInfo = this.$store.getters["user/getUserData"] || {};
+    const userToken = getStorage("userToken");
+    const res = await getUserInfo(userToken);
+    const userData = res.data;
+    if (userData) {
+      setStorage("userData", JSON.stringify(userData));
+      this.$store.commit("user/setUserData", { userData });
+      this.$data.userInfo = userData;
+    }
   },
   components: {
     UserCard,
   },
   methods: {
+    gotoNotice(){
+      navigateTo(pageUrls['NOTICE'])
+    },
     gotoPage(url) {
       console.log(url);
       url && navigateTo(url);
