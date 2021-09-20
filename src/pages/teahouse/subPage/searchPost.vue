@@ -194,6 +194,8 @@ export default {
     },
     //搜索热门标签的帖子
     searchHotTagPost() {
+      this.posts.list=[];
+      this.posts.postId=0;
       //联网加载数据
       getPostByTag(this.content, this.posts.postId, this.upOption.page.size)
         .then((res) => {
