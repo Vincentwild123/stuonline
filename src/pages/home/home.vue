@@ -65,16 +65,6 @@ export default {
       return;
     }
     showToast("登录信息过期或不合法,请重新登陆");
-    setTimeout(() => {
-      navigateTo(pageUrls.LOGIN);
-    }, 1500);
-  },
-  onShow() {
-    const localUserData = getStorage("userData");
-    if (localUserData) {
-      const userData = JSON.parse(getStorage("userData"));
-      this.$store.commit("user/setUserData", { userData });
-    }
   },
   methods: {
     gotoPage(url) {

@@ -167,6 +167,7 @@ export default {
           const res = await getUserInfo(ret.token);
           const userData = res.data;
           if (userData) setStorage("userData", JSON.stringify(userData));
+		  this.$store.commit("user/setUserData", { userData });
           setTimeout(() => {
             uni.switchTab({
               url: "/src/pages/home/home",

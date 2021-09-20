@@ -3,15 +3,16 @@
     <!-- 用户基础信息展示 -->
     <view class="profile_info_box">
       <image
+	    @click="gotoLogin"
         class="profile_info_avatar"
         :src="userHead"
         mode="heightFix"
       ></image>
       <view class="meta_info_box">
         <view class="meta_user_name">
-          {{ userName }}
+          昵称：{{ userName }}
         </view>
-        <view class="meta_user_ID">ID:{{userId}}</view>
+        <view class="meta_user_ID">ID：{{userId}}</view>
         <view class="meta_user_medals">
           <template v-for="(item, index) of badgeUrls">
             <image
@@ -56,6 +57,8 @@
 </template>
 
 <script>
+import pageUrls from "../../../API/pageUrls.js"
+import {navigateTo} from '../../../API/common.js'
 export default {
   props: {
     userHead: {
@@ -94,6 +97,11 @@ export default {
       default:0
     },
   },
+  methods:{
+	gotoLogin(){
+	   navigateTo(pageUrls.LOGIN)
+	}
+  }
 };
 </script>
 

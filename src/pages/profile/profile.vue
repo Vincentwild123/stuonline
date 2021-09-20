@@ -63,7 +63,7 @@
 </template>
 <script>
 import UserCard from "./components/UserCard.vue";
-import { getStorage, navigateTo, setStorage } from "../../API/common.js";
+import { getStorage,showToast, navigateTo, setStorage } from "../../API/common.js";
 import { getUserInfo } from "./service.js";
 import { Additions } from "./config.js";
 import pageUrls from "../../API/pageUrls.js";
@@ -108,6 +108,8 @@ export default {
             uni.stopPullDownRefresh();
           });
       }
+	  uni.stopPullDownRefresh();
+	  showToast("你还没登陆，刷新个屁呢？！")
     },
     gotoNotice() {
       navigateTo(pageUrls["NOTICE"]);
