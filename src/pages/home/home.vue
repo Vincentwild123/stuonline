@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { loginWithToken, getFormUploadToken } from "./service.js";
+import { ifTokenValid, getFormUploadToken } from "./service.js";
 import {
   showToast,
   setStorage,
@@ -56,15 +56,15 @@ export default {
     SearchBar,
   },
   async onLoad() {
-    const ifUserTokenValid = await loginWithToken();
-    if (ifUserTokenValid) {
-      const fromToken = await getFormUploadToken();
-      if (fromToken) {
-        setStorage("formToken", fromToken);
+    const userToken = getStorage("userToken");
+    if (userToken) {
+      //验证token是否合法
+      const _ifTokenValid = await ifTokenValid(userToken);
+      if (_ifTokenValid) {
+        return;
       }
-      return;
     }
-    showToast("登录信息过期或不合法,请重新登陆");
+    showToast("检测到未登录或登录状态非法!");
   },
   methods: {
     gotoPage(url) {

@@ -10,7 +10,7 @@
       ></image>
       <view class="meta_info_box">
         <view class="meta_user_name">
-          昵称：{{ userName }}
+         {{ userName }}
         </view>
         <view class="meta_user_ID">ID：{{userId}}</view>
         <view class="meta_user_medals">
@@ -64,7 +64,7 @@ export default {
     userHead: {
       type: String,
       required: true,
-      default:"https://img2.baidu.com/it/u=1662859086,3825119284&fm=26&fmt=auto"
+      default:"https://tse3-mm.cn.bing.net/th/id/OIP-C.3HMK7zI9ugXJvbtzS-PxeQAAAA?w=180&h=180&c=7&r=0&o=5&pid=1.7"
     },
     userName: {
       type: String,
@@ -72,9 +72,9 @@ export default {
       default:"未登录"
     },
     userId:{
-	  type:String,
+	  type:Number,
 	  required:true,
-	  default:"-1"
+	  default:-1
 	},
     badgeUrls: {
       type: Array,

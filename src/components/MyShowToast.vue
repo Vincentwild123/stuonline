@@ -20,19 +20,19 @@ export default {
   },
   props: {
     title: {
-      defaule: "",
+      default: "",
       type: String,
     },
     content: {
-      defaule: "",
+      default: "",
       type: String,
     },
     cancel: {
-      defaule: "",
+      default: "取消",
       type: String,
     },
     confirm: {
-      defaule: "",
+      default: "确定",
       type: String,
     },
   },
