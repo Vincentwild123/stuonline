@@ -1,6 +1,6 @@
 <!-- 搜索栏 -->
 <template>
-	<view class="searchBar">
+	<view class="searchBar" @click="toSearch">
 		<image src="/UI/serchBar.png" mode="widthFix"></image>
 		<slot name="text"></slot>
 	</view>
@@ -12,7 +12,12 @@ name:'SearchBar',
   data () {
     return {
     };
-  }
+  },
+  methods: {
+	  toSearch(){
+		  this.$emit("toSearch");
+	  }
+  },
 }
 
 </script>

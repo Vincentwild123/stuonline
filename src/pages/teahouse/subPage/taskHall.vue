@@ -25,7 +25,16 @@
       @emptyclick="emptyClick"
     >
       <!--搜索栏开始-->
-      <search-bar><text slot="text">搜索任务</text></search-bar>
+      <search-bar @toSearch="toSearch"
+        ><text slot="text"
+          ><image
+            src="../../../UI/searchIcon.png"
+            mode="heightFix"
+            style="height: 25rpx; vertical-align: -8%; margin-right: 10rpx"
+          ></image
+          >搜索任务</text
+        ></search-bar
+      >
       <!--搜索栏结束-->
       <!--发布导航栏开始-->
       <view class="post_task" @click="createAssignment">
@@ -33,7 +42,7 @@
           <image
             src="../../../UI/postTask.png"
             mode="heightFix"
-            style="height: 60rpx;vertical-align:middle;"
+            style="height: 60rpx; vertical-align: middle"
           />
         </view>
         <view class="post_text">发布任务</view>
@@ -41,7 +50,7 @@
           <image
             src="../../../UI/rightBack.png"
             mode="heightFix"
-            style="height: 28rpx;vertical-align:middle;"
+            style="height: 28rpx; vertical-align: middle"
           ></image>
         </view>
       </view>
@@ -56,10 +65,31 @@
       <!--通知栏开始-->
       <!--通知栏结束-->
     </mescroll-body>
+    <uni-popup ref="showToast">
+      <MyShowToast
+        title="登陆状态"
+        content="尚未登陆无法执行此操作~马上去登陆？"
+        cancel="取消"
+        confirm="确定"
+        @userCancel="userCancel"
+        @userComfire="userComfire"
+      />
+    </uni-popup>
+    <uni-popup ref="acceptTask">
+      <MyShowToast
+        title="任务处理"
+        content="确定接受该任务嘛？不可取消！"
+        cancel="取消"
+        confirm="确定"
+        @userCancel="cancelAcceptTask"
+        @userComfire="acceptTask"
+      />
+    </uni-popup>
   </view>
 </template>
 
 <script>
+import MyShowToast from "../../../components/MyShowToast.vue";
 import SearchBar from "../components/content/SearchBar.vue";
 import NavigatorBar from "../components/content/NavigatorBar.vue";
 import TaskFloor from "./childComp/taskFloor.vue";
@@ -83,8 +113,9 @@ export default {
           btnText: "抢沙发",
         },
       },
-      mission: [], //人物的列表
+      mission: [], //任务的列表
       lastMissionId: 0, //数据库中最后议一条任务的id
+      MisData:null
     };
   },
   components: {
@@ -92,43 +123,81 @@ export default {
     NavigatorBar,
     TaskFloor,
     MescrollBody,
+    MyShowToast,
   },
   methods: {
-	  //创建任务
-	  createAssignment(){
-		  uni.navigateTo({
-		  	url:"createAssignment"
-		  })
-	  },
+    //确认接受任务
+    acceptTask() {
+      console.log("=========");
+      //接受任务
+      let MisData =this.MisData;
+      acceptMission(MisData).then(
+        (res) => {
+          for (const item of this.mission) {
+            if (item.mission.missionId === MisData) {
+              item.executed = true;
+              break;
+            }
+          }
+          uni.showToast({
+            title: "任务接受成功！",
+            duration: 2000,
+            icon: "none",
+          });
+        },
+        (err) => {
+          uni.showToast({
+            title: "任务接受失败！",
+            duration: 2000,
+            icon: "none",
+          });
+        }
+      );
+      this.$refs.acceptTask.close();
+    },
+    //取消接受任务
+    cancelAcceptTask() {
+      this.$refs.acceptTask.close();
+    },
+    //点击取消具体操作
+    userCancel() {
+      this.$refs.showToast.close();
+    },
+    //点击确定具体操作
+    userComfire() {
+      uni.navigateTo({
+        url: "../../login/login",
+      });
+      this.$refs.showToast.close();
+    },
+    //搜索进行跳转
+    toSearch() {
+      uni.navigateTo({
+        url: "./searchTask",
+      });
+    },
+    //创建任务
+    createAssignment() {
+      if (!this.$store.getters["user/isLogin"]) {
+        this.$bus.$emit("showLoginState");
+        return;
+      }
+      uni.navigateTo({
+        url: "createAssignment",
+      });
+    },
     //取消任务或者接受任务
     handleMission(MisData, executed) {
+      if (!this.$store.getters["user/isLogin"]) {
+        this.$bus.$emit("showLoginState");
+        return;
+      }
+      this.MisData = MisData;
       if (executed) {
         //发送请求取消任务
         return;
       } else {
-        //接受任务
-        acceptMission(MisData).then(
-          (res) => {
-            for (const item of this.mission) {
-              if (item.mission.missionId === MisData) {
-                item.executed = true;
-                break;
-              }
-            }
-            uni.showToast({
-              title: "任务接受成功！",
-              duration: 2000,
-              icon: "none",
-            });
-          },
-          (err) => {
-            uni.showToast({
-              title: "任务接受失败！",
-              duration: 2000,
-              icon: "none",
-            });
-          }
-        );
+        this.$refs.acceptTask.open("center");
       }
     },
     /*下拉刷新的回调 */
@@ -136,7 +205,7 @@ export default {
       //查询最后的任务的ID
       getLastMissionId()
         .then((res) => {
-          this.lastMissionId = res.data.data+1;
+          this.lastMissionId = res.data.data + 1;
           //手动制空数据
           this.mission = [];
           // 下拉刷新的回调,默认重置上拉加载列表为第一页 (自动执行 page.num=1, 再触发upCallback方法 )
@@ -166,6 +235,14 @@ export default {
         });
     },
   },
+  onShow() {
+    this.$bus.$on("showLoginState", () => {
+      this.$refs.showToast.open("center");
+    });
+  },
+  onHide() {
+    this.$bus.$off("showLoginState");
+  },
 };
 </script>
 <style scoped>
@@ -180,7 +257,7 @@ export default {
   height: 100rpx;
   justify-content: space-between;
 }
-.post_icon{
+.post_icon {
 }
 .post_text {
   font-size: 24rpx;

@@ -98,28 +98,11 @@ export default {
     },
     //任务的接受与取消
     handleMission() {
-      if (this.list.executed) {
-        //取消接受任务
-        console.log("取消不了哈哈哈");
-        return;
-      } else {
-        //接受任务
-        let _this = this;
-        uni.showModal({
-          content: "确定接受该任务吗？",
-          success: function (res) {
-            if (res.confirm) {
-              _this.$emit(
-                "handleMission",
-                _this.list.mission.missionId,
-                _this.list.executed
-              );
-            } else if (res.cancel) {
-              console.log("用户点击取消");
-            }
-          },
-        });
-      }
+      this.$emit(
+        "handleMission",
+        this.list.mission.missionId,
+        this.list.executed
+      );
     },
   },
 };
