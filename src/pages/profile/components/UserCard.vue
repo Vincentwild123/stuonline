@@ -11,7 +11,7 @@
         <view class="meta_user_name">
           {{ userName }}
         </view>
-        <view class="meta_user_ID"> ID: {{ userId }} </view>
+        <view class="meta_user_ID">ID:{{userId}}</view>
         <view class="meta_user_medals">
           <template v-for="(item, index) of badgeUrls">
             <image
@@ -60,22 +60,23 @@ export default {
   props: {
     userHead: {
       type: String,
-      required: false,
+      required: true,
       default:"https://img2.baidu.com/it/u=1662859086,3825119284&fm=26&fmt=auto"
     },
     userName: {
       type: String,
       required: true,
-      default:"未知"
+      default:"未登录"
     },
-    userId: {
-      type: String,
-      required: true,
-      default:"-1",
-    },
+    userId:{
+	  type:String,
+	  required:true,
+	  default:"-1"
+	},
     badgeUrls: {
       type: Array,
-      default: [],
+	  required:false,
+      default: ()=> [],
     },
     commentCount: {
       type: Number,

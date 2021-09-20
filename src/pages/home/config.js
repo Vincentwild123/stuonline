@@ -3,7 +3,7 @@ export const Nav = [
   {
     name: "任务",
     icon: "https://pic.imgdb.cn/item/613185c044eaada739850dc7.png",
-    url: pageUrls.TASKHALL,
+    url: pageUrls.MYTASK,
   },
   {
     name: "通知",

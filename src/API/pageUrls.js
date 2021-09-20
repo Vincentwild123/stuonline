@@ -1,5 +1,6 @@
 export default {
   HOME: "/src/pages/home/home",
+  MYTASK:"/src/pages/home/subPages/myTask/myTask",
   PROFILE: "/src/pages/profile/profile",
   TEAHOUSE: "/src/pages/teahouse/teahouse",
   TEAM: "/src/pages/team/team",

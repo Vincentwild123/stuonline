@@ -11,7 +11,7 @@
       :userPostcount="userInfo.userPostcount"
     ></UserCard>
     <view class="mine_row">
-      <view class="mine_row_box" @click='gotoNotice'>
+      <view class="mine_row_box" @click="gotoNotice">
         <image
           mode="widthFix"
           src="/static/icons/profile/icon_my_notification.png"
@@ -66,43 +66,57 @@ import UserCard from "./components/UserCard.vue";
 import { getStorage, navigateTo, setStorage } from "../../API/common.js";
 import { getUserInfo } from "./service.js";
 import { Additions } from "./config.js";
-import  pageUrls  from '../../API/pageUrls.js';
+import pageUrls from "../../API/pageUrls.js";
 export default {
   data() {
     return {
-      userInfo: {
-        userHead: "",
-        userName: "",
-        userId: "",
-        badgeUrls: [],
-        commentCount: 0,
-        userPostcount: 0,
-        userLikepost: 0,
-      },
+      userInfo: {},
       Additions,
     };
   },
   async onShow() {
     //获取用户数据
     const userToken = getStorage("userToken");
-    const res = await getUserInfo(userToken);
-    const userData = res.data;
-    if (userData) {
-      setStorage("userData", JSON.stringify(userData));
-      this.$store.commit("user/setUserData", { userData });
-      this.$data.userInfo = userData;
+    if (userToken) {
+      const res = await getUserInfo(userToken);
+      const userInfo = res.data;
+      if (userInfo) {
+        setStorage("userData", JSON.stringify(userInfo));
+        this.$store.commit("user/setUserData", { userInfo });
+        this.$data.userInfo = userInfo;
+      }
     }
   },
   components: {
     UserCard,
   },
   methods: {
-    gotoNotice(){
-      navigateTo(pageUrls['NOTICE'])
+    onPullDownRefresh() {
+      //获取用户数据
+      const userToken = getStorage("userToken");
+      if (userToken) {
+        getUserInfo(userToken)
+          .then((res) => {
+            const userData = res.data;
+            if (userData) {
+              setStorage("userData", JSON.stringify(userData));
+              this.$store.commit("user/setUserData", { userData });
+              this.$data.userInfo = userData;
+            }
+          })
+          .finally(() => {
+            uni.stopPullDownRefresh();
+          });
+      }
+    },
+    gotoNotice() {
+      navigateTo(pageUrls["NOTICE"]);
     },
     gotoPage(url) {
-      console.log(url);
-      url && navigateTo(url);
+      if (url == pageUrls["LOGIN"]) {
+        uni.clearStorageSync();
+      }
+      navigateTo(url);
     },
   },
 };

@@ -4,7 +4,13 @@
       "path": "src/pages/home/home"
     },
     {
-      "path": "src/pages/profile/profile"
+      "path":"src/pages/home/subPages/myTask/myTask"
+    },
+    {
+      "path": "src/pages/profile/profile",
+      "style": {
+        "enablePullDownRefresh": true
+      }
     },
     {
       "path": "src/pages/teahouse/teahouse"
