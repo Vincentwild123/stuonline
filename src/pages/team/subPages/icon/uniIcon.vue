@@ -26,11 +26,17 @@ export default {
     },
     index: Number,
     eventName: String,
+	isEvent:{
+		type:Boolean,
+		default: true,
+	},
   },
   methods: {
     _iconOnClick() {
-      console.log(this.eventName + this.index.toString());
-      uni.$emit(this.eventName + this.index.toString(), { index: this.index });
+		if(this.isEvent){
+			console.log(this.eventName + this.index.toString());
+			uni.$emit(this.eventName + this.index.toString(), { index: this.index });
+		}
     },
   },
   created() {},
