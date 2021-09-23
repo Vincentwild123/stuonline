@@ -72,6 +72,9 @@
     {
       "path": "src/pages/team/subPages/showActivity"
     },
+	{
+	  "path": "src/pages/team/subPages/createTeam"
+	},
     {
       "path": "src/pages/teahouse/subPage/searchTask"
     },
