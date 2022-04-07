@@ -2,7 +2,7 @@
 	<view class="home flex-column">
 		<!-- 引入teamTop -->
 		<view>
-			<teamTop class="compos-top" @teamTop="teamTop" :clickIndex="clickIndex"></teamTop>
+			<team-top class="compos-top"  :clickIndex="clickIndex"></team-top>
 		</view>
 
 		<!-- 引入搜索组件 -->
@@ -13,29 +13,18 @@
 		<view class="create" @click="gotoCreateTeam">
 			<image src="../../UI/team/create.png" class="create_img"></image>
 			<text class="create_text">创建团队</text>
-			<view class="create_icon letColumnCenter">
-				<uniIcon type="jiantou" :isEvent="false"></uniIcon>
+			<view class="create_icon letColumnCenter" >
+				<image src="../../UI/turnRight.png" class="turnRight"></image>
 			</view>
 		</view>
 		<!-- 引入各个团队简介 -->
 		<!-- <team-list class="item-scroll"  v-if="clickIndex === 1"></team-list> -->
 		<swiper @change="changeItem" :current="clickIndex" class="compos-swiper" v-if="!isLoad">
 			<swiper-item class="compos-swiper-item" item-id="swiper-0">
-				<team-list class="item-scroll" v-if="clickIndex === 0 && isHaveJoined" :teams="teams" :myTeam="false" :v-if="false"></team-list>
-				<!-- 没加入任何团队 -->
-				<view class="rest-contain letColumnCenter">
-					<image src="../../UI/team/rest.png" class="rest"></image>
-					<view class="text1">你还有加入任何团队！</view>
-					<view class="text2">快去【所有团队】寻找喜欢的组织吧~</view>
-				</view>
+				<team-list class="item-scroll" v-if="clickIndex === 0 " :teams="teams" :myTeam="false"></team-list>
 			</swiper-item>
 			<swiper-item item-id="swiper-1">
-				<team-list class="item-scroll" v-if="clickIndex === 1 && isHaveJoined" :teams="teams" :myTeam="true"></team-list>
-				<view class="rest-contain letColumnCenter" v-if="!isHaveJoined">
-					<image src="../../UI/team/rest.png" class="rest"></image>
-					<view class="text1">你还有加入任何团队！</view>
-					<view class="text2">快去【所有团队】寻找喜欢的组织吧~</view>
-				</view>
+				<team-list class="item-scroll" v-if="clickIndex === 1 " :teams="teams" :myTeam="true"></team-list>
 			</swiper-item>
 		</swiper>
 	</view>
@@ -45,7 +34,7 @@
 	import teamTop from "./teamCompos/teamTop.vue";
 	import teamSearch from "./teamCompos/teamSearch.vue";
 	import teamList from "./teamCompos/teamList.vue";
-	import uniIcon from "./subPages/icon/uniIcon.vue"
+	import {gotoPage,pageUrl} from "./subPages/service.js";
 	import {
 		getMandate,
 		getHaveJoinedTeam,
@@ -58,8 +47,7 @@
 		components: {
 			teamSearch,
 			teamTop,
-			teamList,
-			uniIcon
+			teamList
 		},
 		data() {
 			return {
@@ -67,8 +55,6 @@
 				myTeam: true,
 				teams: [],
 				isLoad: true,
-				isHaveJoined: false,
-
 			};
 		},
 
@@ -78,9 +64,14 @@
 			},
 			
 			gotoCreateTeam(){
-				uni.navigateTo({
-					url:"./subPages/createTeam"
-				})
+				if(this.$store.getters["user/isLogin"] === 0){
+					uni.showToast({
+						title:"请先登录！",
+						icon: "none",
+					});
+					return;
+				}
+				gotoPage(pageUrl.createTeam);
 			},
 			//页面初始化
 			async init() {
@@ -93,20 +84,22 @@
 						console.log(err);
 					});
 				//获取已经加入的团队
+				this.getHavaJoinedTeams();
+			},
+			
+			getHavaJoinedTeams(){
 				getHaveJoinedTeam().then(
 					(res) => {
 						this.teams = res.data.data;
 						//如果没有加入任何团队
-						if (this.teams)
-							this.isHaveJoined = true;
 						this.isLoad = false;
+						console.log(this.teams)
 					},
 					(err) => {
 						console.log(err);
 					}
 				);
-			},
-
+			}
 		},
 
 		created() {
@@ -116,15 +109,17 @@
 			uni.$on("indexClick1", () => {
 				this.clickIndex = 1;
 			});
+			uni.$on("refreshData",(value)=>{
+				this.getHavaJoinedTeams();
+			})
 		},
-
 		computed: {
 			userInfo() {
 				return this.$store.getters['user/userData']
 			}
 		},
 
-		onLoad() {
+		onShow() {
 			this.init();
 		},
 	};
@@ -166,7 +161,11 @@
 			height: 100%;
 		}
 	}
-
+	
+	.turnRight{
+		height: 16px;
+		width: 8px;
+	}
 	.compos {
 		padding: 0 20px;
 	}
@@ -184,23 +183,4 @@
 		margin-top: 20px;
 	}
 
-	.rest-contain {
-		flex-direction: column;
-
-		.rest {
-			height: 214px;
-			width: 214px;
-		}
-
-		.text1 {
-			font-size: 12px;
-			color: #686868;
-		}
-
-		.text2 {
-			font-size: 10px;
-			color: #AFAAAA;
-		}
-
-	}
 </style>

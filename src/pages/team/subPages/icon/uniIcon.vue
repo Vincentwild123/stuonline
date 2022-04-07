@@ -1,11 +1,12 @@
 <!-- 图标无法正常显示 -->
 <template>
-  <view
-    :class="'icon-' + type"
-    :style="{ color: color, 'font-size': size + 'px' }"
-    class="iconfont"
-    @click="_iconOnClick"
-  />
+	<view>
+		<image
+		  :src="url"
+		  class="iconfont"
+		  @click="_iconOnClick"
+		></image>
+	</view>
 </template>
 
 <script>
@@ -30,6 +31,9 @@ export default {
 		type:Boolean,
 		default: true,
 	},
+	url: {
+		type: String,
+	}
   },
   methods: {
     _iconOnClick() {
@@ -44,5 +48,8 @@ export default {
 </script>
 
 <style>
-@import url("//at.alicdn.com/t/font_2641164_6zctso8bbto.css");
+	.iconfont{
+		height: 16px;
+		width: 9px;
+	}
 </style>

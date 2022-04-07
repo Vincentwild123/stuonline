@@ -80,6 +80,9 @@
     },
 	{
 	  "path": "src/pages/teahouse/subPage/searchPost"
+	},
+	{
+	  "path": "src/pages/team/subPages/searchBar"
 	}
   ],
   "tabBar": {

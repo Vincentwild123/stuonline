@@ -14,7 +14,7 @@
 
 <script>
 	export default {
-		name: "teamSearch",
+		name: "teamTop",
 		props: {
 			clickIndex: Number,
 		},
@@ -37,6 +37,9 @@
 				uni.$emit("indexClick" + index.toString());
 			},
 		},
+		created() {
+			
+		}
 	};
 </script>
 

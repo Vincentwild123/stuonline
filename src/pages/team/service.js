@@ -1,4 +1,5 @@
 import axios from "../../axios/axios.interceptors";
+import config from "../../axios/axios.config.js";
 
 var api_root = "http://192.168.13.46:31312/team/";
 
@@ -28,17 +29,6 @@ var api = {
  * 表单鉴权token
  */
 export async function getMandate() {
-  var token = null;
-  if (!token) {
-    axios
-      .get("http://192.168.13.46:31312/user/getToken/1")
-      .then((res) => {
-        console.log("token已经获取");
-      })
-      .catch((value) => {
-        console.log(value);
-      });
-  }
   return await axios.get(api_root + "auth");
 }
 
@@ -82,7 +72,7 @@ export async function deleteMemberInTeam(teamId, userId) {
   const data = await axios.get("http://192.168.13.46:31312/user/getToken/1");
   const token = data.data;
   return axios.delete(
-    "team/member/" + teamId + "/" + userId + "/" + "?token=" + token
+    "team/member/" + teamId + "/" + userId + "/"
   );
 }
 export function getInStorage(key) {
@@ -98,4 +88,19 @@ export function getTeamByTeamName(pageNum, pageSize, teamName) {
   return axios.get(
     api_root + "name/" + pageNum + "/" + pageSize + "?" + "teamName=" + teamName
   );
+}
+
+
+export function createTeam(formData,files){
+	return axios.post(
+		api_root+"register",{formData,files},
+		{
+			 ContentType: "multipart/form-data",
+		}
+	);
+}
+
+
+export function findTeamByName(pageNum, pageSize, teamName){
+	return axios.get(api_root+"name/"+pageNum+"/"+pageSize+"?teamName="+teamName)
 }
